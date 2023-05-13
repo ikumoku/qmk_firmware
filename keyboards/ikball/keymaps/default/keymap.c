@@ -14,6 +14,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ├───┼───┼───┼───┤
      * │ 0 │ . │Ent│ + │
      * └───┴───┴───┴───┘
+     *
+     *     "matrix_pins": {
+        "cols": ["C2", "C2", "C2", "C2"],
+        "rows": ["D1", "D1", "D1", "D1"]
+    },　
      */
     [0] = LAYOUT_ortho_4x4(
         KC_P7,   KC_P8,   KC_P9,   KC_PSLS,
