@@ -4,6 +4,11 @@
 #include QMK_KEYBOARD_H
 #include "quantum.h"
 
+#include "keycode.h"   //補完ができる？
+#include "keymap_extras/keymap_jp.h"//補完ができる？
+
+
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
      * ┌───┬───┬───┬───┐
