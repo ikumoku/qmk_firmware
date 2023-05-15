@@ -5,6 +5,13 @@
 #include "quantum.h"
 #include "print.h"
 
+enum layer_names {
+    _BASE,
+    _L1,
+    _L2,
+    _L3,
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
      * ┌───┬───┬───┬───┐
@@ -17,10 +24,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * │ 0 │ . │Ent│ + │
      * └───┴───┴───┴───┘
      *
-     *     "matrix_pins": {
-        "cols": ["C2", "C2", "C2", "C2"],
-        "rows": ["D1", "D1", "D1", "D1"]
-    },　
+
 
     [0] = LAYOUT_ortho_4x4(
         KC_P7,   KC_P8,   KC_P9,   KC_PSLS,
@@ -29,9 +33,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_P0,   KC_PDOT, KC_PENT, KC_PPLS
     ) */
 
-      // keymap for default
-     [0] = LAYOUT_ortho_4x4(
-    KC_ESC   , KC_Q     , KC_W     , KC_I ,
+  
+    [_BASE] = LAYOUT(
+    KC_D   , KC_Q     , KC_W     , KC_I ,
+    KC_A   , KC_X     , KC_S     , KC_O ,
+    KC_B  , KC_Z     , KC_X     , KC_P,
+    KC_C   , KC_Q     , KC_W     , KC_E
+     ),
+
+    [_L1] = LAYOUT(
+    KC_D   , KC_Q     , KC_W     , KC_I ,
+    KC_A   , KC_X     , KC_S     , KC_O ,
+    KC_B  , KC_Z     , KC_X     , KC_P,
+    KC_C   , KC_Q     , KC_W     , KC_E
+     ),
+
+    [_L2] = LAYOUT(
+    KC_D   , KC_Q     , KC_W     , KC_I ,
+    KC_A   , KC_X     , KC_S     , KC_O ,
+    KC_B  , KC_Z     , KC_X     , KC_P,
+    KC_C   , KC_Q     , KC_W     , KC_E
+     ),
+
+    [_L3] = LAYOUT(
+    KC_D   , KC_Q     , KC_W     , KC_I ,
     KC_A   , KC_X     , KC_S     , KC_O ,
     KC_B  , KC_Z     , KC_X     , KC_P,
     KC_C   , KC_Q     , KC_W     , KC_E
