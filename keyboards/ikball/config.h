@@ -29,3 +29,4 @@
 //#define MATRIX_MASKED
 //#define DEBOUNCE            5
 #define DIODE_DIRECTION     COL2ROW
+//#define DIODE_DIRECTION     ROW2COL
