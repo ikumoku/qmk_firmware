@@ -105,12 +105,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 //////////////////////////////////////////////////////////////////////////////
 // OLED utility
-
+/*
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_270;
-
     return rotation;
 }
+*/
 
 #define L_BASE 0
 #define L_LOWER 2
