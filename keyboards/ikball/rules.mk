@@ -10,7 +10,5 @@ OLED_ENABLE = yes
 OLED_DRIVER = SSD1306
 
 
-
-
 # atmega32u4 3.3v
 F_CPU = 8000000

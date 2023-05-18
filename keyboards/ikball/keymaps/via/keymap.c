@@ -29,7 +29,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *
      */
 
-    [_BASE] = LAYOUT(KC_D, KC_Q, KC_W, KC_I, KC_A, KC_X, KC_S, KC_O, KC_B, KC_Z, KC_X, KC_P, KC_C, KC_Q, KC_W, KC_E),
+    [_BASE] = LAYOUT(
+        KC_D,   KC_Q,   KC_W,   KC_I, 
+        KC_A,   KC_X,   KC_S,   KC_O,
+        KC_B,   KC_Z,   KC_X,   KC_P, 
+        KC_C,   KC_Q,   KC_W,   KC_E
+     ),
 
     [_L1] = LAYOUT(KC_D, KC_Q, KC_W, KC_I, KC_A, KC_X, KC_S, KC_O, KC_B, KC_Z, KC_X, KC_P, KC_C, KC_Q, KC_W, KC_E),
 
@@ -38,6 +43,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_L3] = LAYOUT(KC_D, KC_Q, KC_W, KC_I, KC_A, KC_X, KC_S, KC_O, KC_B, KC_Z, KC_X, KC_P, KC_C, KC_Q, KC_W, KC_E),
 
 };
+//////////////////////////////////////////////////////////////////////////////
+// OLED表示用
+static const char *format_4d(int8_t d) {
+    static char buf[5] = {0}; // max width (4) + NUL (1)
+    char        lead   = ' ';
+    if (d < 0) {
+        d    = -d;
+        lead = '-';
+    }
+    buf[3] = (d % 10) + '0';
+    d /= 10;
+    if (d == 0) {
+        buf[2] = lead;
+        lead   = ' ';
+    } else {
+        buf[2] = (d % 10) + '0';
+        d /= 10;
+    }
+    if (d == 0) {
+        buf[1] = lead;
+        lead   = ' ';
+    } else {
+        buf[1] = (d % 10) + '0';
+        d /= 10;
+    }
+    buf[0] = lead;
+    return buf;
+}
 
 //////////////////////////////////////////////////////////////////////////////
 // trackball
@@ -70,11 +103,20 @@ void matrix_scan_user(void) {
         mouse_rep.buttons = 0;
         mouse_rep.h       = 0;
         mouse_rep.v       = 0;
-        mouse_rep.x       = y;
-        mouse_rep.y       = -x;
+        //mouse_rep.x       = y;
+       // mouse_rep.y       = -x;
+        mouse_rep.x       = -y;
+        mouse_rep.y       = x;
 
         if (cnt % 10 == 0) {
-            // dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+            dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+
+            static char type_count_str[7];
+            itoa(stat, type_count_str, 10);
+            oled_write_P(PSTR("Ball:"), false);
+          //  oled_write(type_count_str, false);
+            oled_write(format_4d(mouse_rep.x), false);
+            oled_write(format_4d(mouse_rep.y), false);
         }
 
         if (stat & 0x80) {
@@ -97,7 +139,8 @@ void keyboard_post_init_user(void) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // コンソールが有効化されている場合、マトリックス上の位置とキー押下状態を出力します
 #ifdef CONSOLE_ENABLE
-    dprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+    dprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n",
+     keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
     dprint("debug OK\n");
 #endif
     return true;
@@ -113,27 +156,24 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 */
 
 #define L_BASE 0
-#define L_LOWER 2
-#define L_RAISE 4
-#define L_ADJUST 8
+#define L_LOWER 1
+#define L_RAISE 2
+#define L_ADJUST 3
 
 void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
     switch (layer_state) {
         case L_BASE:
-            oled_write_ln_P(PSTR("Default"), false);
+            oled_write_ln_P(PSTR("0"), false);
             break;
         case L_LOWER:
-            oled_write_ln_P(PSTR("Lower"), false);
+            oled_write_ln_P(PSTR("1"), false);
             break;
         case L_RAISE:
-            oled_write_ln_P(PSTR("Raise"), false);
+            oled_write_ln_P(PSTR("2"), false);
             break;
         case L_ADJUST:
-        case L_ADJUST | L_LOWER:
-        case L_ADJUST | L_RAISE:
-        case L_ADJUST | L_LOWER | L_RAISE:
-            oled_write_ln_P(PSTR("Adjust"), false);
+            oled_write_ln_P(PSTR("3"), false);
             break;
     }
 }

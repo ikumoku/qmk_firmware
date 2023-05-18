@@ -30,11 +30,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 typedef int (*spi_paw3204_t)(uint8_t *p_tx_buffer, size_t tx_length, uint8_t *p_rx_buffer, size_t rx_length, uint8_t cs_pin);
 
 #ifndef PAW3204_SCLK
-#    define PAW3204_SCLK D4 //please check unused pin.
+#    define PAW3204_SCLK B2 //please check unused pin. iku change
 #endif
 
 #ifndef PAW3204_DATA
-#    define PAW3204_DATA D2 //please check unused pin.
+#    define PAW3204_DATA B6 //please check unused pin. iku change
 #endif
 
 int spi_soft_half_duplex(uint8_t *p_tx_buffer, size_t tx_length, uint8_t *p_rx_buffer, size_t rx_length, uint8_t cs_pin) {
@@ -105,6 +105,8 @@ int read_paw3204(uint8_t *stat, int8_t *x, int8_t *y) {
         spi_paw3204(snd, sizeof(snd), rcv, sizeof(rcv), 0xFF);
         *y = *((int8_t *)(rcv + 1));
     }
+
+    // dprint("paw3204 resad OK---------\n");
     return 1;
 }
 

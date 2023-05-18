@@ -19,27 +19,23 @@
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
 
-
-
+////////////////////////////////////////////////////////////////////
+//keyball39
+/*
 // Key matrix parameters
-#define MATRIX_ROWS         4
+#define MATRIX_ROWS         (4 * 2)  // split keyboard
 #define MATRIX_COLS         6
 #define MATRIX_ROW_PINS     { F4, F5, F6, F7 }
 #define MATRIX_COL_PINS     { D4, C6, D7, E6, B4, B5 }
-//#define MATRIX_MASKED
-//#define DEBOUNCE            5
-#define DIODE_DIRECTION     COL2ROW
-//#define DIODE_DIRECTION     ROW2COL
+#define MATRIX_MASKED
+#define DEBOUNCE            5
 
-//////////////////////////////////////////////////////////////////////////////////////
-//trackball
-//B2　　PAW3204_SCLK　　　右下一つ上
-//B6  　PAW3204_DATA　　　　右下
+// Split parameters
+//#define SOFT_SERIAL_PIN         D2
+//#define SPLIT_HAND_MATRIX_GRID  F6, B5
+//#define SPLIT_USB_DETECT
+//#define SPLIT_USB_TIMEOUT       500
+*/
+////////////////////////////////////////////////////////////////////
 
-// PCB
-//  CN2
-// 1  3.3v
-// 2  SDIO  ----  B6
-// 3  SCL   ----  B2
-// 4  GND
-//////////////////////////////////////////////////////////////////////////////////////
+
