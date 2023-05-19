@@ -109,6 +109,7 @@ void matrix_scan_user(void) {
         mouse_rep.y       = x;
 
         if (cnt % 10 == 0) {
+<<<<<<< Updated upstream
             dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
 
             static char type_count_str[7];
@@ -117,6 +118,9 @@ void matrix_scan_user(void) {
           //  oled_write(type_count_str, false);
             oled_write(format_4d(mouse_rep.x), false);
             oled_write(format_4d(mouse_rep.y), false);
+=======
+             dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+>>>>>>> Stashed changes
         }
 
         if (stat & 0x80) {
