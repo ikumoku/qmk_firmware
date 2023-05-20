@@ -16,31 +16,34 @@ enum layer_names {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    /*
-     * ┌───┬───┬───┬───┐
-     * │ 7 │ 8 │ 9 │ / │
-     * ├───┼───┼───┼───┤
-     * │ 4 │ 5 │ 6 │ * │
-     * ├───┼───┼───┼───┤
-     * │ 1 │ 2 │ 3 │ - │
-     * ├───┼───┼───┼───┤
-     * │ 0 │ . │Ent│ + │
-     * └───┴───┴───┴───┘
-     *
-     */
 
     [_BASE] = LAYOUT(
-        KC_D,   KC_Q,   KC_W,   KC_I,
-        KC_A,   KC_X,   KC_S,   KC_O,
-        KC_B,   KC_Z,   KC_X,   KC_P,
-        KC_C,   KC_Q,   KC_W,   KC_E
+        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I
      ),
 
-    [_L1] = LAYOUT(KC_D, KC_Q, KC_W, KC_I, KC_A, KC_X, KC_S, KC_O, KC_B, KC_Z, KC_X, KC_P, KC_C, KC_Q, KC_W, KC_E),
+    [_L1] = LAYOUT(
+        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I
+     ),
 
-    [_L2] = LAYOUT(KC_D, KC_Q, KC_W, KC_I, KC_A, KC_X, KC_S, KC_O, KC_B, KC_Z, KC_X, KC_P, KC_C, KC_Q, KC_W, KC_E),
+    [_L2] = LAYOUT(
+        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I
+     ),
 
-    [_L3] = LAYOUT(KC_D, KC_Q, KC_W, KC_I, KC_A, KC_X, KC_S, KC_O, KC_B, KC_Z, KC_X, KC_P, KC_C, KC_Q, KC_W, KC_E),
+    [_L3] = LAYOUT(
+        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I
+     )
 
 };
 //////////////////////////////////////////////////////////////////////////////
@@ -84,10 +87,10 @@ void matrix_init_user(void) {
 void matrix_scan_user(void) {
     static int  cnt;
     static bool paw_ready;
-    if (cnt++ % 1000 == 0) {
+    if (cnt++ % 50000 == 0) {
         uint8_t pid = read_pid_paw3204();
         if (pid == 0x30) {
-            dprint("paw3204 OK\n");
+         //   dprint("paw3204 OK\n");
             paw_ready = true;
         } else {
             dprintf("paw3204 NG:%d\n", pid);
