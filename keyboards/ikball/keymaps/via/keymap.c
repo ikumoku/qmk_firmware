@@ -14,35 +14,39 @@ enum layer_names {
     _L2,
     _L3,
 };
+enum encoder_number {
+    _1ST_ENC = 0,
+    _2ND_ENC,
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_BASE] = LAYOUT(
-        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I,
-        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,
-        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,
-        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I
+        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I, KC_I,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I, KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I, KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I, KC_I
      ),
 
     [_L1] = LAYOUT(
-        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I,
-        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,
-        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,
-        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I
+        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I, KC_I,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I, KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I, KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I, KC_I
      ),
 
     [_L2] = LAYOUT(
-        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I,
-        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,
-        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,
-        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I
+        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I, KC_I,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I, KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I, KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I, KC_I
      ),
 
     [_L3] = LAYOUT(
-        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I,
-        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,
-        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,
-        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I
+        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I, KC_I,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I, KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I, KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I, KC_I
      )
 
 };
@@ -183,5 +187,31 @@ void oled_render_layer_state(void) {
 
 bool oled_task_user(void) {
     oled_render_layer_state();
+    return false;
+}
+
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    switch (index) {
+        case _1ST_ENC:
+            if (clockwise) {
+                tap_code(KC_VOLU);
+                // tap_code(KC_PGDN);
+                dprint("_1ST_ENC cw\n");
+            } else {
+                tap_code(KC_VOLD);
+                // tap_code(KC_PGUP);
+                dprint("_1ST_ENC ccw\n");
+            }
+            break;
+        case _2ND_ENC:
+            if (clockwise) {
+                tap_code(KC_VOLU);
+                dprint("_2ST_ENC cw\n");
+            } else {
+                tap_code(KC_VOLD);
+                dprint("_2ST_ENC ccw\n");
+            }
+            break;
+    }
     return false;
 }

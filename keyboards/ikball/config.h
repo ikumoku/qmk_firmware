@@ -46,3 +46,6 @@
 // Rotary encoder
 //B1 A
 //B3 B
+#define ENCODERS_PAD_A { B1 }
+#define ENCODERS_PAD_B { B3 }
+#define ENCODER_RESOLUTION 2

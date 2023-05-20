@@ -9,6 +9,8 @@ SRC += 	paw3204.c
 OLED_ENABLE = yes
 OLED_DRIVER = SSD1306
 
+ENCODER_ENABLE = yes
+
 
 # atmega32u4 3.3v
 #F_CPU = 8000000
