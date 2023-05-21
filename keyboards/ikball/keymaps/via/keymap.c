@@ -22,36 +22,55 @@ enum encoder_number {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_BASE] = LAYOUT(
-        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I, KC_I,
-        KC_A,   KC_X,   KC_S,   KC_O,  KC_I, KC_I,
-        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I, KC_I,
-        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I, KC_I
+        KC_ESC, KC_Q,   KC_W,   KC_E,  KC_R,  KC_T,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I,  KC_I,
+
+        KC_Y,   KC_U,   KC_X,   KC_I,  KC_I,  KC_I,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I,  KC_I
      ),
 
     [_L1] = LAYOUT(
-        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I, KC_I,
-        KC_A,   KC_X,   KC_S,   KC_O,  KC_I, KC_I,
-        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I, KC_I,
-        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I, KC_I
-     ),
+        KC_ESC, KC_Q,   KC_W,   KC_E,  KC_R,  KC_T,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I,  KC_I,
 
+        KC_Y,   KC_U,   KC_X,   KC_I,  KC_I,  KC_I,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I,  KC_I
+     ),
     [_L2] = LAYOUT(
-        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I, KC_I,
-        KC_A,   KC_X,   KC_S,   KC_O,  KC_I, KC_I,
-        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I, KC_I,
-        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I, KC_I
+        KC_ESC, KC_Q,   KC_W,   KC_E,  KC_R,  KC_T,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I,  KC_I,
+
+        KC_Y,   KC_U,   KC_X,   KC_I,  KC_I,  KC_I,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I,  KC_I
      ),
 
     [_L3] = LAYOUT(
-        KC_D,   KC_Q,   KC_W,   KC_I,  KC_I, KC_I,
-        KC_A,   KC_X,   KC_S,   KC_O,  KC_I, KC_I,
-        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I, KC_I,
-        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I, KC_I
-     )
+        KC_ESC, KC_Q,   KC_W,   KC_E,  KC_R,  KC_T,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I,  KC_I,
 
+        KC_Y,   KC_U,   KC_X,   KC_I,  KC_I,  KC_I,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I,  KC_I
+     )
 };
 //////////////////////////////////////////////////////////////////////////////
 // OLED表示用
+/*
 static const char *format_4d(int8_t d) {
     static char buf[5] = {0}; // max width (4) + NUL (1)
     char        lead   = ' ';
@@ -78,11 +97,13 @@ static const char *format_4d(int8_t d) {
     buf[0] = lead;
     return buf;
 }
+*/
 
 //////////////////////////////////////////////////////////////////////////////
 // trackball
 
 report_mouse_t mouse_rep;
+bool mouse_mode_scroll = false;
 
 void matrix_init_user(void) {
     init_paw3204();
@@ -108,22 +129,39 @@ void matrix_scan_user(void) {
 
         read_paw3204(&stat, &x, &y);
         mouse_rep.buttons = 0;
-        mouse_rep.h       = 0;
-        mouse_rep.v       = 0;
-        //mouse_rep.x       = y;
-       // mouse_rep.y       = -x;
-        mouse_rep.x       = -y;
-        mouse_rep.y       = x;
+        if (mouse_mode_scroll) {
+            // mouse_rep.h = -y; // スクロール
+            mouse_rep.h = 0;
+            mouse_rep.v = -x; // スクロール
+
+            mouse_rep.x = 0;
+            mouse_rep.y = 0;
+        } else {
+            mouse_rep.h = 0;
+            mouse_rep.v = 0;
+            mouse_rep.x = -y;
+            mouse_rep.y = x;
+        }
+        //  mouse_rep.buttons = 0;
+        // mouse_rep.h       = -y; // スクロール
+        // mouse_rep.v       = -x; // スクロール
+
+        //   mouse_rep.h       = 0;
+        //   mouse_rep.v       = 0;
+        // mouse_rep.x       = y;
+        // mouse_rep.y       = -x;
+        // mouse_rep.x       = -y;
+        //  mouse_rep.y       = x;
 
         if (cnt % 10 == 0) {
-          //  dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+            //  dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
 
             static char type_count_str[7];
             itoa(stat, type_count_str, 10);
-            oled_write_P(PSTR("Ball:"), false);
-          //  oled_write(type_count_str, false);
-            oled_write(format_4d(mouse_rep.x), false);
-            oled_write(format_4d(mouse_rep.y), false);
+            // oled_write_P(PSTR("Ball:"), false);
+            //  oled_write(type_count_str, false);
+            //   oled_write(format_4d(mouse_rep.x), false);
+            // oled_write(format_4d(mouse_rep.y), false);
         }
 
         if (stat & 0x80) {
@@ -160,7 +198,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_270;
     return rotation;
 }
-*/
+
 
 #define L_BASE 0
 #define L_LOWER 1
@@ -168,7 +206,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 #define L_ADJUST 3
 
 void oled_render_layer_state(void) {
-    oled_write_P(PSTR("Layer: "), false);
+  //  oled_write_P(PSTR("Layer: "), false);
     switch (layer_state) {
         case L_BASE:
             oled_write_ln_P(PSTR("0"), false);
@@ -189,7 +227,83 @@ bool oled_task_user(void) {
     oled_render_layer_state();
     return false;
 }
+*/
 
+
+//////////////////////////////////////////////////////////////////////////////
+//encoder
+bool encoder_update_kb(uint8_t index, bool clockwise) {
+    keypos_t key;
+    bool     encoder_layer_locked = false;
+
+    if (index == 0) {
+        if (clockwise) {
+            key.row = 2;
+            key.col = 5;
+        } else {
+            key.row = 1;
+            key.col = 5;
+        }
+        if (get_highest_layer(layer_state) < _L3) {
+        layer_on(_BASE);
+        encoder_layer_locked = true;
+        }
+        action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
+        action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
+        if (encoder_layer_locked) {
+            layer_off(_BASE);
+        }
+    }
+
+    if (index == 1) {
+        if (clockwise) {
+            key.row = 6;
+            key.col = 5;
+        } else {
+            key.row = 5;
+            key.col = 5;
+        }
+        if (get_highest_layer(layer_state) < _L3) {
+        layer_on(_BASE);
+        encoder_layer_locked = true;
+        }
+        action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
+        action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
+        if (encoder_layer_locked) {
+            layer_off(_BASE);
+        }
+    }
+    return true;
+}
+
+
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    switch (get_highest_layer(state)) {
+    case _BASE:
+        dprint("layer 0\n");
+        mouse_mode_scroll  = false;
+        break;
+    case _L1:
+        dprint("layer 1\n");
+         mouse_mode_scroll  = false;
+        break;
+    case _L2:
+        dprint("layer 2\n");
+         mouse_mode_scroll  = false;
+        break;
+    case _L3:
+        dprint("layer 3\n");
+         mouse_mode_scroll  = true;
+        break;
+    default:
+
+        break;
+    }
+  return state;
+}
+
+/*
 bool encoder_update_user(uint8_t index, bool clockwise) {
     switch (index) {
         case _1ST_ENC:
@@ -215,3 +329,54 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     }
     return false;
 }
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    switch (index) {
+        case _1ST_ENC:
+            if (clockwise) {
+                tap_code(KC_VOLU);
+                // tap_code(KC_PGDN);
+                dprint("_1ST_ENC cw\n");
+            } else {
+                tap_code(KC_VOLD);
+                // tap_code(KC_PGUP);
+                dprint("_1ST_ENC ccw\n");
+            }
+            break;
+        case _2ND_ENC:
+            if (clockwise) {
+                tap_code(KC_VOLU);
+                dprint("_2ST_ENC cw\n");
+            } else {
+                tap_code(KC_VOLD);
+                dprint("_2ST_ENC ccw\n");
+            }
+            break;
+    }
+    return false;
+}
+c
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    switch (index) {
+        case _1ST_ENC:
+            if (clockwise) {
+                tap_code(KC_VOLU);
+                // tap_code(KC_PGDN);
+                dprint("_1ST_ENC cw\n");
+            } else {
+                tap_code(KC_VOLD);
+                // tap_code(KC_PGUP);
+                dprint("_1ST_ENC ccw\n");
+            }
+            break;
+        case _2ND_ENC:
+            if (clockwise) {
+                tap_code(KC_VOLU);
+                dprint("_2ST_ENC cw\n");
+            } else {
+                tap_code(KC_VOLD);
+                dprint("_2ST_ENC ccw\n");
+            }
+            break;
+    }
+    return false;
+} */
