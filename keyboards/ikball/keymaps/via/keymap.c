@@ -104,14 +104,18 @@ static const char *format_4d(int8_t d) {
 */
 
 //////////////////////////////////////////////////////////////////////////////
-// trackball
+// trackballo 
 
 report_mouse_t mouse_rep;
-bool mouse_mode_scroll = false;
+bool           mouse_mode_scroll = false;
 
 void matrix_init_user(void) {
     init_paw3204();
 }
+
+#define SCROLL_THRESHOLD 10
+bool is_scrolling = false;
+int  cnt_mouse_v  = 0;
 
 void matrix_scan_user(void) {
     static int  cnt;
@@ -119,7 +123,7 @@ void matrix_scan_user(void) {
     if (cnt++ % 50000 == 0) {
         uint8_t pid = read_pid_paw3204();
         if (pid == 0x30) {
-         //   dprint("paw3204 OK\n");
+            //   dprint("paw3204 OK\n");
             paw_ready = true;
         } else {
             dprintf("paw3204 NG:%d\n", pid);
@@ -133,29 +137,31 @@ void matrix_scan_user(void) {
 
         read_paw3204(&stat, &x, &y);
         mouse_rep.buttons = 0;
-        if (mouse_mode_scroll) {
-            // mouse_rep.h = -y; // スクロール
-            mouse_rep.h = 0;
-            mouse_rep.v = -x; // スクロール
 
+        if (mouse_mode_scroll) {
+            cnt_mouse_v += x;
+            int scrolling_v = 0;
+
+            if (cnt_mouse_v > SCROLL_THRESHOLD) {
+                scrolling_v = 1;
+                cnt_mouse_v = 0;
+            } else if (cnt_mouse_v < SCROLL_THRESHOLD * (-1)) {
+                scrolling_v = -1;
+                cnt_mouse_v = 0;
+            }
+
+            mouse_rep.h = 0;
+            mouse_rep.v = -scrolling_v;
             mouse_rep.x = 0;
             mouse_rep.y = 0;
+
         } else {
+            // mouse mode
             mouse_rep.h = 0;
             mouse_rep.v = 0;
             mouse_rep.x = -y;
             mouse_rep.y = x;
         }
-        //  mouse_rep.buttons = 0;
-        // mouse_rep.h       = -y; // スクロール
-        // mouse_rep.v       = -x; // スクロール
-
-        //   mouse_rep.h       = 0;
-        //   mouse_rep.v       = 0;
-        // mouse_rep.x       = y;
-        // mouse_rep.y       = -x;
-        // mouse_rep.x       = -y;
-        //  mouse_rep.y       = x;
 
         if (cnt % 10 == 0) {
             //  dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);

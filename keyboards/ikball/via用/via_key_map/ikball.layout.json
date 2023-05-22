@@ -43,7 +43,7 @@
       "LT(1,KC_SPC)",
       "MT(MOD_LCTL | MOD_RCTL,KC_HANJ)",
       "LT(1,KC_ENT)",
-      "KC_LGUI",
+      "KC_LSFT",
       "KC_I",
       "KC_Y",
       "KC_U",
