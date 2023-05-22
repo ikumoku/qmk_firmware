@@ -2,22 +2,14 @@
   "name": "ikball",
   "vendorProductId": 422779186,
   "macros": [
-<<<<<<< HEAD
-    "{+KC_LCTL}{+KC_LGUI}{KC_LEFT}{-KC_LCTL}{-KC_LGUI}",
-    "{+KC_LCTL}{+KC_LSFT}1{-KC_LCTL}{-KC_LSFT}",
-    "{+KC_LCTL}{+KC_LSFT}2{-KC_LCTL}{-KC_LSFT}",
-    "{+KC_LCTL}{+KC_LSFT}3{-KC_LCTL}{-KC_LSFT}",
-    "{+KC_LCTL}{+KC_LGUI}{+KC_RGHT}{-KC_LCTL}{-KC_RGHT}{-KC_LGUI}",
-=======
-    "à{-KC_PMNS}",
+    "{+KC_LCTL}{+KC_LGUI}{+KC_LEFT}{-KC_LCTL}{-KC_LEFT}{-KC_LGUI}",
+    "{+KC_LCTL}{+KC_LGUI}{+KC_RGHT}{-KC_LCTL}{-KC_LGUI}{-KC_RGHT}",
     "",
     "",
     "",
     "",
->>>>>>> 4e9a18dc6f7f2add0a616296a3e0c2058b444859
-    "",
-    "",
-    "",
+    "{+KC_LCTL}{+KC_PMNS}{-KC_LCTL}{-KC_PMNS}",
+    "{+KC_LCTL}{+KC_PPLS}{-KC_LCTL}{-KC_PPLS}",
     "",
     "",
     "",
@@ -64,13 +56,13 @@
       "KC_K",
       "KC_L",
       "KC_SCLN",
-      "MACRO(7)",
+      "MACRO(6)",
       "KC_N",
       "KC_M",
       "KC_COMM",
       "KC_DOT",
       "KC_SLSH",
-      "MACRO(6)",
+      "MACRO(7)",
       "LT(5,KC_BSPC)",
       "LT(2,KC_ENT)",
       "KC_W",
@@ -157,15 +149,6 @@
       "S(KC_1)",
       "S(KC_7)",
       "S(KC_2)",
-<<<<<<< HEAD
-      "KC_I",
-      "KC_TRNS",
-      "KC_BSLS",
-      "KC_MINS",
-      "KC_PMNS",
-      "KC_O",
-      "KC_I",
-=======
       "KC_NO",
       "KC_TRNS",
       "KC_BSLS",
@@ -173,18 +156,12 @@
       "KC_NO",
       "KC_NO",
       "KC_NO",
->>>>>>> 4e9a18dc6f7f2add0a616296a3e0c2058b444859
       "KC_TRNS",
       "S(KC_BSLS)",
       "A(KC_LEFT)",
       "A(KC_RGHT)",
-<<<<<<< HEAD
-      "KC_P",
-      "KC_I",
-=======
       "KC_NO",
       "KC_NO",
->>>>>>> 4e9a18dc6f7f2add0a616296a3e0c2058b444859
       "KC_TRNS",
       "KC_TRNS",
       "KC_TRNS",
@@ -201,21 +178,13 @@
       "KC_ESC",
       "KC_TRNS",
       "KC_NO",
-<<<<<<< HEAD
-      "C(KC_PPLS)",
-=======
-      "MACRO(6)",
->>>>>>> 4e9a18dc6f7f2add0a616296a3e0c2058b444859
+      "MACRO(7)",
       "KC_NO",
       "KC_NO",
       "KC_NO",
       "KC_TRNS",
       "KC_NO",
-<<<<<<< HEAD
-      "C(KC_PMNS)",
-=======
-      "MACRO(7)",
->>>>>>> 4e9a18dc6f7f2add0a616296a3e0c2058b444859
+      "MACRO(6)",
       "KC_NO",
       "KC_NO",
       "KC_NO",
@@ -233,26 +202,22 @@
       "TO(1)",
       "KC_TRNS",
       "MACRO(2)",
-      "KC_MS_WH_UP",
+      "KC_NO",
       "KC_NO",
       "KC_NO",
       "TO(0)",
       "KC_TRNS",
       "MACRO(3)",
-      "KC_MS_WH_DOWN",
       "KC_NO",
       "KC_NO",
       "KC_NO",
-<<<<<<< HEAD
-=======
       "KC_NO",
->>>>>>> 4e9a18dc6f7f2add0a616296a3e0c2058b444859
       "KC_TRNS",
       "KC_TRNS",
       "KC_TRNS",
       "KC_W",
       "KC_NO",
-      "MACRO(4)",
+      "MACRO(1)",
       "KC_I"
     ],
     [
