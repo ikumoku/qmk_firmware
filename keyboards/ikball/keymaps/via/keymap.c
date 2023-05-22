@@ -3,10 +3,14 @@
 
 #include QMK_KEYBOARD_H
 #include "quantum.h"
+#include "keymap_japanese.h"
+
+#include "quantum.h"
 #include "print.h"
 
 #include "paw3204.h"
 #include "pointing_device.h"
+
 
 enum layer_names {
     _BASE,
