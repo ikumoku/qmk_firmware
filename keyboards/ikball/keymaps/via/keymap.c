@@ -18,6 +18,7 @@ enum layer_names {
     _L2,
     _L3,
     _L4,
+    _L5
 };
 enum encoder_number {
     _1ST_ENC = 0,
@@ -74,6 +75,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      ),
      
     [_L4] = LAYOUT(
+        KC_ESC, KC_Q,   KC_W,   KC_E,  KC_R,  KC_T,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I,  KC_I,
+
+        KC_Y,   KC_U,   KC_X,   KC_I,  KC_I,  KC_I,
+        KC_A,   KC_X,   KC_S,   KC_O,  KC_I,  KC_I,
+        KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,  KC_I,
+        KC_C,   KC_Q,   KC_W,   KC_E,  KC_I,  KC_I
+     ),
+          
+    [_L5] = LAYOUT(
         KC_ESC, KC_Q,   KC_W,   KC_E,  KC_R,  KC_T,
         KC_A,   KC_X,   KC_S,   KC_O,  KC_I,  KC_I,
         KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,  KC_I,
