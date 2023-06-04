@@ -73,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,  KC_I,
         KC_C,   KC_Q,   KC_W,   KC_E,  KC_I,  KC_I
      ),
-     
+
     [_L4] = LAYOUT(
         KC_ESC, KC_Q,   KC_W,   KC_E,  KC_R,  KC_T,
         KC_A,   KC_X,   KC_S,   KC_O,  KC_I,  KC_I,
@@ -85,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_B,   KC_Z,   KC_X,   KC_P,  KC_I,  KC_I,
         KC_C,   KC_Q,   KC_W,   KC_E,  KC_I,  KC_I
      ),
-          
+
     [_L5] = LAYOUT(
         KC_ESC, KC_Q,   KC_W,   KC_E,  KC_R,  KC_T,
         KC_A,   KC_X,   KC_S,   KC_O,  KC_I,  KC_I,
@@ -130,7 +130,7 @@ static const char *format_4d(int8_t d) {
 */
 
 //////////////////////////////////////////////////////////////////////////////
-// trackballo 
+// trackballo
 
 report_mouse_t mouse_rep;
 bool           mouse_mode_scroll = false;
@@ -332,6 +332,17 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         dprint("layer 3\n");
          mouse_mode_scroll  = true;
         break;
+    case _L4:
+        dprint("layer 4\n");
+         mouse_mode_scroll  = false;
+        break;
+    case _L5:
+        dprint("layer 5\n");
+         mouse_mode_scroll  = false;
+        break;
+
+
+
     default:
 
         break;
