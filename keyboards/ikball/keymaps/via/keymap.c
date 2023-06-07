@@ -130,7 +130,7 @@ static const char *format_4d(int8_t d) {
 */
 
 //////////////////////////////////////////////////////////////////////////////
-// trackballo
+// trackball
 
 report_mouse_t mouse_rep;
 bool           mouse_mode_scroll = false;
@@ -222,7 +222,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef CONSOLE_ENABLE
     dprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n",
      keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
-    dprint("debug OK\n");
+     
 #endif
     return true;
 }
@@ -312,8 +312,8 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
     return true;
 }
 
-
-
+//////////////////////////////////////////////////////////////////////////////
+//change layer
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
     case _BASE:
