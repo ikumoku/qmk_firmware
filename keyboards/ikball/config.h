@@ -52,8 +52,13 @@
 #define ENCODER_RESOLUTION 2
 
 // RGB LED settings
-#define RGB_DI_PIN          D3
-#define RGBLED_NUM      3
+#define RGB_DI_PIN       D3
+#define RGBLED_NUM       3
+
+//OLED
+// D0 SCL
+// D1 SDA
+
 
 #define RGBLIGHT_LIMIT_VAL 200
 #define RGBLIGHT_VAL_STEP   15
