@@ -50,3 +50,17 @@
 #define ENCODERS_PAD_A { B1 }
 #define ENCODERS_PAD_B { B3 }
 #define ENCODER_RESOLUTION 2
+
+// RGB LED settings
+#define RGB_DI_PIN       D3
+#define RGBLED_NUM       3
+
+//OLED
+// D0 SCL
+// D1 SDA
+
+
+#define RGBLIGHT_LIMIT_VAL 200
+#define RGBLIGHT_VAL_STEP   15
+#define RGBLIGHT_HUE_STEP   17
+#define RGBLIGHT_SAT_STEP   17

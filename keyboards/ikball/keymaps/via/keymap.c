@@ -100,8 +100,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 //////////////////////////////////////////////////////////////////////////////
 // OLED表示用
-/*
-static const char *format_4d(int8_t d) {
+
+/* static const char *format_4d(int8_t d) {
     static char buf[5] = {0}; // max width (4) + NUL (1)
     char        lead   = ' ';
     if (d < 0) {
@@ -126,8 +126,7 @@ static const char *format_4d(int8_t d) {
     }
     buf[0] = lead;
     return buf;
-}
-*/
+} */
 
 //////////////////////////////////////////////////////////////////////////////
 // trackball
@@ -189,15 +188,15 @@ void matrix_scan_user(void) {
             mouse_rep.y = x;
         }
 
-        if (cnt % 10 == 0) {
-            //  dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+        if (cnt % 100 == 0) {
+         //   dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
 
-            static char type_count_str[7];
+     /*        static char type_count_str[7];
             itoa(stat, type_count_str, 10);
-            // oled_write_P(PSTR("Ball:"), false);
-            //  oled_write(type_count_str, false);
-            //   oled_write(format_4d(mouse_rep.x), false);
-            // oled_write(format_4d(mouse_rep.y), false);
+            oled_write_P(PSTR("Ball:"), false);
+            oled_write(type_count_str, false);
+            oled_write(format_4d(mouse_rep.x), false);
+            oled_write(format_4d(mouse_rep.y), false); */
         }
 
         if (stat & 0x80) {
@@ -215,6 +214,7 @@ void keyboard_post_init_user(void) {
     debug_matrix = true;
     // debug_keyboard=true;
     // debug_mouse=true;
+      oled_write_P(PSTR("test ok:"), false);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -229,31 +229,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 //////////////////////////////////////////////////////////////////////////////
 // OLED utility
-/*
+
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_270;
     return rotation;
 }
 
-
-#define L_BASE 0
+/* #define L_BASE 0
 #define L_LOWER 1
 #define L_RAISE 2
-#define L_ADJUST 3
+#define L_ADJUST 3 */
 
 void oled_render_layer_state(void) {
-  //  oled_write_P(PSTR("Layer: "), false);
+    oled_write_P(PSTR("Layer: "), false);
     switch (layer_state) {
-        case L_BASE:
+        case _BASE:
             oled_write_ln_P(PSTR("0"), false);
             break;
-        case L_LOWER:
+        case _L1:
             oled_write_ln_P(PSTR("1"), false);
             break;
-        case L_RAISE:
+        case _L2:
             oled_write_ln_P(PSTR("2"), false);
             break;
-        case L_ADJUST:
+        case _L3:
             oled_write_ln_P(PSTR("3"), false);
             break;
     }
@@ -263,7 +262,7 @@ bool oled_task_user(void) {
     oled_render_layer_state();
     return false;
 }
-*/
+
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -319,14 +318,17 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     case _BASE:
         dprint("layer 0\n");
         mouse_mode_scroll  = false;
+         oled_write_ln_P(PSTR("0"), false);
         break;
     case _L1:
         dprint("layer 1\n");
          mouse_mode_scroll  = false;
+          oled_write_ln_P(PSTR("1"), false);
         break;
     case _L2:
         dprint("layer 2\n");
          mouse_mode_scroll  = false;
+          oled_write_ln_P(PSTR("2"), false);
         break;
     case _L3:
         dprint("layer 3\n");
