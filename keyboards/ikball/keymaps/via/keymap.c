@@ -177,11 +177,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 // 押された時に何かをします
                 dprintf("MSCROLL  pressed\n");
-                  mouse_mode_scroll = true;
+                mouse_mode_scroll = true;
             } else {
                 // 放された時に何かをします
                 dprintf("MSCROLL  release\n");
-                  mouse_mode_scroll = false;
+                mouse_mode_scroll = false;
             }
             return false; // このキーの以降の処理をスキップします
 
@@ -190,7 +190,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     return true;
-} 
+}
 
 //////////////////////////////////////////////////////////////////////////////
 // OLED utility
@@ -215,11 +215,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
             oled_write_ln_P(PSTR("11111111"), false);
             break;
         case _L2:
-<<<<<<< Updated upstream
-            _ln_P(PSTR("2"), false);
-=======
             oled_write_ln_P(PSTR("222222222222"), false);
->>>>>>> Stashed changes
             break;
         case _L3:
             oled_write_ln_P(PSTR(""), false);
@@ -282,71 +278,64 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
 //////////////////////////////////////////////////////////////////////////////
 // change layer
 layer_state_t layer_state_set_user(layer_state_t state) {
-    
-    oled_set_cursor(0, 1);
+    oled_set_cursor(0, 0);
     oled_write_P(PSTR("Layer"), false);
     oled_set_cursor(2, 3);
     switch (get_highest_layer(state)) {
-<<<<<<< Updated upstream
         case _BASE:
             dprint("layer 0\n");
             mouse_mode_scroll = false;
-            oled_write_ln_P(PSTR("0"), false);
+            oled_set_cursor(0, 2);
+            oled_write_ln_P(PSTR("--0--"), false);
+            oled_set_cursor(0, 3);
+            oled_write_ln_P(PSTR("     "), false);
+            oled_set_cursor(0, 4);
+            oled_write_ln_P(PSTR("     "), false);
+            oled_set_cursor(0, 5);
+            oled_write_ln_P(PSTR("     "), false);
             break;
         case _L1:
             dprint("layer 1\n");
             mouse_mode_scroll = false;
-            oled_write_ln_P(PSTR("1"), false);
+            oled_write_ln_P(PSTR("     "), false);
+            oled_set_cursor(0, 3);
+            oled_write_ln_P(PSTR("--1--"), false);
+            oled_set_cursor(0, 4);
+            oled_write_ln_P(PSTR("     "), false);
+            oled_set_cursor(0, 5);
+            oled_write_ln_P(PSTR("     "), false);
+            break;
             break;
         case _L2:
             dprint("layer 2\n");
             mouse_mode_scroll = false;
-            oled_write_ln_P(PSTR("2"), false);
+            oled_set_cursor(0, 2);
+            oled_write_ln_P(PSTR("     "), false);
+            oled_set_cursor(0, 3);
+            oled_write_ln_P(PSTR("     "), false);
+            oled_set_cursor(0, 4);
+            oled_write_ln_P(PSTR("--2--"), false);
+            oled_set_cursor(0, 5);
+            oled_write_ln_P(PSTR("     "), false);
             break;
         case _L3:
             dprint("layer 3\n");
             mouse_mode_scroll = true;
+            oled_set_cursor(2, 5);
             oled_write_ln_P(PSTR("3"), false);
             break;
         case _L4:
             dprint("layer 4\n");
-          //  mouse_mode_scroll = false;
+            //  mouse_mode_scroll = false;
+            oled_set_cursor(2, 6);
             oled_write_ln_P(PSTR("4"), false);
             break;
         case _L5:
             dprint("layer 5\n");
             mouse_mode_scroll = false;
+            oled_set_cursor(2, 7);
             oled_write_ln_P(PSTR("5"), false);
             break;
-=======
-    case _BASE:
-        dprint("layer 0\n");
-        mouse_mode_scroll  = false;
-      //   oled_write_ln_P(PSTR("0000"), false);
-        break;
-    case _L1:
-        dprint("layer 1\n");
-         mouse_mode_scroll  = false;
-      //    oled_write_ln_P(PSTR("11111111"), false);
-        break;
-    case _L2:
-        dprint("layer 2\n");
-         mouse_mode_scroll  = false;
-          oled_write_ln_P(PSTR("222222222222"), false);
-        break;
-    case _L3:
-        dprint("layer 3\n");
-         mouse_mode_scroll  = true;
-        break;
-    case _L4:
-        dprint("layer 4\n");
-         mouse_mode_scroll  = false;
-        break;
-    case _L5:
-        dprint("layer 5\n");
-         mouse_mode_scroll  = false;
-        break;
->>>>>>> Stashed changes
 
         default:
 
