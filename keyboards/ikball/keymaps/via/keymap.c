@@ -209,16 +209,20 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     oled_write_P(PSTR("Layer: "), false);
     switch (layer_state) {
         case _BASE:
-            oled_write_ln_P(PSTR("0"), false);
+            oled_write_ln_P(PSTR("0000"), false);
             break;
         case _L1:
-            oled_write_ln_P(PSTR("1"), false);
+            oled_write_ln_P(PSTR("11111111"), false);
             break;
         case _L2:
+<<<<<<< Updated upstream
             _ln_P(PSTR("2"), false);
+=======
+            oled_write_ln_P(PSTR("222222222222"), false);
+>>>>>>> Stashed changes
             break;
         case _L3:
-            oled_write_ln_P(PSTR("3"), false);
+            oled_write_ln_P(PSTR(""), false);
             break;
     }
 }
@@ -283,6 +287,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     oled_write_P(PSTR("Layer"), false);
     oled_set_cursor(2, 3);
     switch (get_highest_layer(state)) {
+<<<<<<< Updated upstream
         case _BASE:
             dprint("layer 0\n");
             mouse_mode_scroll = false;
@@ -313,6 +318,35 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             mouse_mode_scroll = false;
             oled_write_ln_P(PSTR("5"), false);
             break;
+=======
+    case _BASE:
+        dprint("layer 0\n");
+        mouse_mode_scroll  = false;
+      //   oled_write_ln_P(PSTR("0000"), false);
+        break;
+    case _L1:
+        dprint("layer 1\n");
+         mouse_mode_scroll  = false;
+      //    oled_write_ln_P(PSTR("11111111"), false);
+        break;
+    case _L2:
+        dprint("layer 2\n");
+         mouse_mode_scroll  = false;
+          oled_write_ln_P(PSTR("222222222222"), false);
+        break;
+    case _L3:
+        dprint("layer 3\n");
+         mouse_mode_scroll  = true;
+        break;
+    case _L4:
+        dprint("layer 4\n");
+         mouse_mode_scroll  = false;
+        break;
+    case _L5:
+        dprint("layer 5\n");
+         mouse_mode_scroll  = false;
+        break;
+>>>>>>> Stashed changes
 
         default:
 
