@@ -49,7 +49,8 @@
 // Rotary encoder
 #define ENCODERS_PAD_A { B1 }
 #define ENCODERS_PAD_B { B3 }
-#define ENCODER_RESOLUTION 2
+//#define ENCODER_RESOLUTION 2
+#define ENCODER_RESOLUTION 4
 
 // RGB LED settings
 #define RGB_DI_PIN       D3

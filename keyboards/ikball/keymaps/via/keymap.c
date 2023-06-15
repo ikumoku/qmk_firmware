@@ -139,11 +139,11 @@ void matrix_scan_user(void) {
             static char type_count_str[7];
             itoa(stat, type_count_str, 10);
             oled_set_cursor(0, 8);
-            oled_write_P(PSTR("Ball"), false);
+          //  oled_write_P(PSTR("Ball"), false);
             // oled_write(type_count_str, false);
-            oled_set_cursor(0, 10);
+            oled_set_cursor(0, 11);
             oled_write(format_4d(mouse_rep.x), false);
-            oled_set_cursor(0, 12);
+            oled_set_cursor(0, 14);
             oled_write(format_4d(mouse_rep.y), false);
         }
 
