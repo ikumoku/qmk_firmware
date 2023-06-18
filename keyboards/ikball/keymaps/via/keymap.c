@@ -138,7 +138,6 @@ void matrix_scan_user(void) {
 
             static char type_count_str[7];
             itoa(stat, type_count_str, 10);
-            oled_set_cursor(0, 8);
 
             oled_set_cursor(0, 13);
             oled_write(format_4d(mouse_rep.x), false);
