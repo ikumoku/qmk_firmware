@@ -55,6 +55,7 @@
 // RGB LED settings
 #define RGB_DI_PIN       D3
 #define RGBLED_NUM       8
+#define RGBLIGHT_EFFECT_BREATHING
 
 //OLED
 // D0 SCL
