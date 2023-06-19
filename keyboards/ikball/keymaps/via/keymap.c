@@ -138,8 +138,10 @@ void matrix_scan_user(void) {
 
             static char type_count_str[7];
             itoa(stat, type_count_str, 10);
-
-            oled_set_cursor(0, 13);
+            oled_set_cursor(0, 8);
+            //  oled_write_P(PSTR("Ball"), false);
+            // oled_write(type_count_str, false);
+            oled_set_cursor(0, 11);
             oled_write(format_4d(mouse_rep.x), false);
             oled_set_cursor(0, 15);
             oled_write(format_4d(mouse_rep.y), false);
@@ -290,56 +292,96 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             oled_set_cursor(0, 4);
             oled_write_ln_P(PSTR("-   -"), false);
             oled_set_cursor(0, 5);
-            oled_write_ln_P(PSTR("-   -"), false);
+            oled_write_ln_P(PSTR("     "), false);
+            oled_set_cursor(0, 6);
+            oled_write_ln_P(PSTR("     "), false);
+            oled_set_cursor(0, 7);
+            oled_write_ln_P(PSTR("     "), false);
+
             break;
+
         case _L1:
             dprint("layer 1\n");
             mouse_mode_scroll = false;
-            oled_set_cursor(0, 2);
-            oled_write_ln_P(PSTR("-   -"), false);
+            oled_write_ln_P(PSTR("-- --"), false);
             oled_set_cursor(0, 3);
             oled_write_ln_P(PSTR("--1--"), false);
             oled_set_cursor(0, 4);
             oled_write_ln_P(PSTR("-   -"), false);
             oled_set_cursor(0, 5);
-            oled_write_ln_P(PSTR("-   -"), false);
+            oled_write_ln_P(PSTR("     "), false);
+            oled_set_cursor(0, 6);
+            oled_write_ln_P(PSTR("     "), false);
+            oled_set_cursor(0, 7);
+            oled_write_ln_P(PSTR("     "), false);
             break;
-            break;
+
         case _L2:
             dprint("layer 2\n");
             mouse_mode_scroll = false;
             oled_set_cursor(0, 2);
-            oled_write_ln_P(PSTR("-   -"), false);
+            oled_write_ln_P(PSTR("-- --"), false);
             oled_set_cursor(0, 3);
-            oled_write_ln_P(PSTR("-   -"), false);
+            oled_write_ln_P(PSTR("-- --"), false);
             oled_set_cursor(0, 4);
             oled_write_ln_P(PSTR("--2--"), false);
             oled_set_cursor(0, 5);
-            oled_write_ln_P(PSTR("-   -"), false);
+            oled_write_ln_P(PSTR("     "), false);
+            oled_set_cursor(0, 6);
+            oled_write_ln_P(PSTR("     "), false);
+            oled_set_cursor(0, 7);
+            oled_write_ln_P(PSTR("     "), false);
             break;
+
         case _L3:
             dprint("layer 3\n");
             mouse_mode_scroll = true;
             oled_set_cursor(0, 2);
-            oled_write_ln_P(PSTR("-   -"), false);
+            oled_write_ln_P(PSTR("-- --"), false);
             oled_set_cursor(0, 3);
-            oled_write_ln_P(PSTR("-   -"), false);
+            oled_write_ln_P(PSTR("-- --"), false);
             oled_set_cursor(0, 4);
-            oled_write_ln_P(PSTR("-   -"), false);
+            oled_write_ln_P(PSTR("-- --"), false);
             oled_set_cursor(0, 5);
             oled_write_ln_P(PSTR("--3--"), false);
+            oled_set_cursor(0, 6);
+            oled_write_ln_P(PSTR("     "), false);
+            oled_set_cursor(0, 7);
+            oled_write_ln_P(PSTR("     "), false);
             break;
+
         case _L4:
             dprint("layer 4\n");
             //  mouse_mode_scroll = false;
-            oled_set_cursor(2, 6);
-            oled_write_ln_P(PSTR("4"), false);
+            oled_set_cursor(0, 2);
+            oled_write_ln_P(PSTR("-- --"), false);
+            oled_set_cursor(0, 3);
+            oled_write_ln_P(PSTR("-- --"), false);
+            oled_set_cursor(0, 4);
+            oled_write_ln_P(PSTR("-- --"), false);
+            oled_set_cursor(0, 5);
+            oled_write_ln_P(PSTR("-- --"), false);
+            oled_set_cursor(0, 6);
+            oled_write_ln_P(PSTR("--4--"), false);
+            oled_set_cursor(0, 7);
+            oled_write_ln_P(PSTR("     "), false);
             break;
+
         case _L5:
             dprint("layer 5\n");
             mouse_mode_scroll = false;
-            oled_set_cursor(2, 7);
-            oled_write_ln_P(PSTR("5"), false);
+            oled_set_cursor(0, 2);
+            oled_write_ln_P(PSTR("-- --"), false);
+            oled_set_cursor(0, 3);
+            oled_write_ln_P(PSTR("-- --"), false);
+            oled_set_cursor(0, 4);
+            oled_write_ln_P(PSTR("-- --"), false);
+            oled_set_cursor(0, 5);
+            oled_write_ln_P(PSTR("-- --"), false);
+            oled_set_cursor(0, 6);
+            oled_write_ln_P(PSTR("-- --"), false);
+            oled_set_cursor(0, 7);
+            oled_write_ln_P(PSTR("--5--"), false);
             break;
 
         default:

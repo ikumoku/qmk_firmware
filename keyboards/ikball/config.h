@@ -20,7 +20,6 @@
 //#define NO_ACTION_ONESHOT
 
 
-
 // Key matrix parameters
 #define MATRIX_ROWS         4 * 2
 #define MATRIX_COLS         6
@@ -32,9 +31,10 @@
 //#define DIODE_DIRECTION     ROW2COL
 
 #define SOFT_SERIAL_PIN D2 //Split Keyboard specific options
+//#define SELECT_SOFT_SERIAL_SPEED 2
 #define MASTER_RIGHT
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////ｑ6/////////////////////////////////////////////////////////
 //trackball
 //B2　　PAW3204_SCLK　　　右下一つ上
 //B6  　PAW3204_DATA　　　　右下
