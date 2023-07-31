@@ -31,10 +31,10 @@
 //#define DIODE_DIRECTION     ROW2COL
 
 #define SOFT_SERIAL_PIN D2 //Split Keyboard specific options
-//#define SELECT_SOFT_SERIAL_SPEED 2
+//#define SELECT_SOFT_SERIAL_SPEED 5
 #define MASTER_RIGHT
 
-/////////////////////////////ｑ6/////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 //trackball
 //B2　　PAW3204_SCLK　　　右下一つ上
 //B6  　PAW3204_DATA　　　　右下
