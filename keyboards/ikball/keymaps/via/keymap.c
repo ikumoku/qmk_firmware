@@ -143,7 +143,7 @@ void matrix_scan_user(void) {
             // oled_write(type_count_str, false);
             oled_set_cursor(0, 11);
             oled_write(format_4d(mouse_rep.x), false);
-            oled_set_cursor(0, 15);
+            oled_set_cursor(0, 13);
             oled_write(format_4d(mouse_rep.y), false);
         }
 
@@ -303,6 +303,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         case _L1:
             dprint("layer 1\n");
             mouse_mode_scroll = false;
+            oled_set_cursor(0, 2);
             oled_write_ln_P(PSTR("-- --"), false);
             oled_set_cursor(0, 3);
             oled_write_ln_P(PSTR("--1--"), false);
