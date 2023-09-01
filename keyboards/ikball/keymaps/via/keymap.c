@@ -314,7 +314,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             oled_set_cursor(0, 6);
             oled_write_ln_P(PSTR("-   -"), false);
             oled_set_cursor(0, 7);
-            oled_write_ln_P(PSTR("-   -"), false);
+            oled_write_ln_P(PSTR("- 1 -"), false);
 
             break;
 
