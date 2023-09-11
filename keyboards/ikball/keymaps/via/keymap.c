@@ -16,7 +16,7 @@ enum layer_names { _BASE, _L1, _L2, _L3, _L4, _L5 };
 enum encoder_number {
     _1ST_ENC = 0,
     _2ND_ENC,
-};j
+};
 
 enum my_keycodes { MSCROLL = SAFE_RANGE, BAR };
 
@@ -135,7 +135,8 @@ void matrix_scan_user(void) {
         }
 
         if (cnt % 10 == 0) {
-               dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+              // dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+             //  uprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
 
             static char type_count_str[7];
             itoa(stat, type_count_str, 10);
@@ -177,11 +178,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case MSCROLL:
             if (record->event.pressed) {
                 // 押された時に何かをします
-                dprintf("MSCROLL  pressed\n");
+                print("MSCROLL  pressed\n");
                 mouse_mode_scroll = true;
             } else {
                 // 放された時に何かをします
-                dprintf("MSCROLL  release\n");
+                print("MSCROLL  release\n");
                 mouse_mode_scroll = false;
             }
             return false; // このキーの以降の処理をスキップします
