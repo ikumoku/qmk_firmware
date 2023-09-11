@@ -9,15 +9,31 @@
  */
 
 /* disable debug print */
-//#define NO_DEBUG
+#define NO_DEBUG
 
 /* disable print */
 //#define NO_PRINT
 
 /* disable action features */
-//#define NO_ACTION_LAYER
-//#define NO_ACTION_TAPPING
-//#define NO_ACTION_ONESHOT
+//#define NO_ACTION_LAYER    //エラーが起きる
+//#define NO_ACTION_TAPPING  //エラーが起きる
+
+//#undef LOCKING_SUPPORT_ENABLE
+//#undef LOCKING_RESYNC_ENABLE
+
+#define NO_ACTION_ONESHOT
+#define NO_MUSIC_MODE
+
+#define LAYER_STATE_8BIT
+#define LAYER_STATE_16BIT
+
+
+#ifdef AUDIO_ENABLE
+   #define AUDIO_PIN C6
+   #define NO_MUSIC_MODE // Save 2000 bytes  変化なし
+#endif
+
+
 
 
 // Key matrix parameters

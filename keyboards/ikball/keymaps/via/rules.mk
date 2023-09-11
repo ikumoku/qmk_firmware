@@ -1,4 +1,17 @@
 VIA_ENABLE = yes
+CONSOLE_ENABLE = yes
+# LINK_TIME_OPTIMIZATION_ENABLE = yes
+LTO_ENABLE = yes # Config Option Link Time Optimization　//変化なし　バイト数減ってない
+
+
+COMMAND_ENABLE = no
+MOUSEKEY_ENABLE = yes
+EXTRAKEY_ENABLE = no
+
+SPACE_CADET_ENABLE = no
+GRAVE_ESC_ENABLE = no
+MAGIC_ENABLE = no
+MUSIC_ENABLE = no
 
 
 
