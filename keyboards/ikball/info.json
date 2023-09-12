@@ -4,15 +4,6 @@
     "maintainer": "ikumoku",
     "bootloader": "atmel-dfu",
 
-    "features": {
-        "bootmagic": true,
-        "command": false,
-        "console": false,
-        "extrakey": true,
-        "mousekey": true,
-        "nkro": true
-    },
-
     "processor": "atmega32u4",
     "url": "",
     "usb": {

@@ -7,7 +7,7 @@
 
 #include "quantum.h"
 #include "print.h"
-//#include <stdio.h>
+// #include <stdio.h>
 
 #include "paw3204.h"
 #include "pointing_device.h"
@@ -135,8 +135,8 @@ void matrix_scan_user(void) {
         }
 
         if (cnt % 10 == 0) {
-              // dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
-             //  uprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+            // dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+            //  uprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
 
             static char type_count_str[7];
             itoa(stat, type_count_str, 10);
@@ -168,11 +168,17 @@ void keyboard_post_init_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // print("process_record_user\n");
     // コンソールが有効化されている場合、マトリックス上の位置とキー押下状態を出力します
 #ifdef CONSOLE_ENABLE
-    dprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+    //  dprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
 
 #endif
+
+
+
+    oled_set_cursor(0, 9);
+    oled_write(format_4d(keycode), false);
 
     switch (keycode) {
         case MSCROLL:
@@ -186,6 +192,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 mouse_mode_scroll = false;
             }
             return false; // このキーの以降の処理をスキップします
+
+        case BAR:
+
 
         default:
             return true; // 他の全てのキーコードを通常通りに処理します
@@ -281,7 +290,7 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
 // change layer
 layer_state_t layer_state_set_user(layer_state_t state) {
     oled_set_cursor(0, 0);
-    oled_write_P(PSTR("Layer"), false);
+    //  oled_write_P(PSTR("Layer"), false);
     oled_set_cursor(2, 3);
     switch (get_highest_layer(state)) {
         case _BASE:
@@ -303,7 +312,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
 
         case _L1:
-            print("layer 1\n");
+            print("layer 1!!!\n");
             mouse_mode_scroll = false;
             oled_set_cursor(0, 2);
             oled_write_ln_P(PSTR("-- --"), false);
@@ -316,7 +325,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             oled_set_cursor(0, 6);
             oled_write_ln_P(PSTR("-   -"), false);
             oled_set_cursor(0, 7);
-            oled_write_ln_P(PSTR("- 1 -"), false);
+            oled_write_ln_P(PSTR("-   -"), false);
 
             break;
 
