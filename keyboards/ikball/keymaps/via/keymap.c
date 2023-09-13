@@ -135,6 +135,22 @@ void matrix_scan_user(void) {
             mouse_rep.y = 0;
         }
 
+        if (ball_mode == BALL_MODE_L_KEY) {
+            cnt_mouse_h += x;
+
+           // uprintf("BALL_MODE_L_KEY:%d\n", cnt_mouse_h);
+
+            if (cnt_mouse_h > SCROLL_THRESHOLD_H) {
+                print("right!");
+
+                cnt_mouse_h = 0;
+            } else if (cnt_mouse_h < SCROLL_THRESHOLD_H * (-1)) {
+                print("left!");
+
+                cnt_mouse_h = 0;
+            }
+        }
+
         if (ball_mode == BALL_MODE_MOUSE) {
             // mouse mode
             mouse_rep.h = 0;
@@ -144,8 +160,8 @@ void matrix_scan_user(void) {
         }
 
         if (cnt % 10 == 0) {
-            //   dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
-            uprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+            // dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+            // uprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
 
             static char type_count_str[7];
             itoa(stat, type_count_str, 10);
@@ -336,7 +352,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
 
         case _L1:
-            print("layer 1!!\n");
+            print("layer 1\n");
             // mouse_mode_scroll = false;
             ball_mode = BALL_MODE_MOUSE;
 
