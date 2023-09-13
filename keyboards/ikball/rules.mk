@@ -1,7 +1,7 @@
 # メモリー節約　
 LTO_ENABLE = yes #リンク時最適化
 
-CONSOLE_ENABLE = no        # Console for debug
+# CONSOLE_ENABLE = no        # Console for debug
 BOOTMAGIC_ENABLE = no       # Enable Bootmagic Lite
 COMMAND_ENABLE = no         # Commands for debug and configuration
 AUDIO_ENABLE = no           # Audio output

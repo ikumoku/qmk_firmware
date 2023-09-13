@@ -18,7 +18,9 @@ enum encoder_number {
     _2ND_ENC,
 };
 
-enum my_keycodes { MSCROLL = SAFE_RANGE, BAR };
+enum my_keycodes { MSCROLL = SAFE_RANGE, SCROLL_L, SCROLL_R };
+
+enum mouse_mode { BALL_MODE_MOUSE, BALL_MODE_SCROLL_V, BALL_MODE_L_KEY, BALL_MODE_R_KEY };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -44,6 +46,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_L5] = LAYOUT(KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,
 
                    KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I)};
+
 //////////////////////////////////////////////////////////////////////////////
 // OLED表示用
 
@@ -78,19 +81,24 @@ static const char *format_4d(int8_t d) {
 // trackball
 
 report_mouse_t mouse_rep;
-bool           mouse_mode_scroll = false;
+// bool    mouse_mode_scroll = false; // 上下スクロールモード
+
+unsigned char ball_mode = BALL_MODE_MOUSE;
 
 void matrix_init_user(void) {
     init_paw3204();
 }
 
-#define SCROLL_THRESHOLD 10
-bool is_scrolling = false;
-int  cnt_mouse_v  = 0;
+#define SCROLL_THRESHOLD_V 10
+#define SCROLL_THRESHOLD_H 10
+
+int cnt_mouse_v = 0;
+int cnt_mouse_h = 0;
 
 void matrix_scan_user(void) {
     static int  cnt;
     static bool paw_ready;
+
     if (cnt++ % 50000 == 0) {
         uint8_t pid = read_pid_paw3204();
         if (pid == 0x30) {
@@ -106,17 +114,17 @@ void matrix_scan_user(void) {
         uint8_t stat;
         int8_t  x, y;
 
-        read_paw3204(&stat, &x, &y);
+        read_paw3204(&stat, &y, &x);
         mouse_rep.buttons = 0;
 
-        if (mouse_mode_scroll) {
-            cnt_mouse_v += x;
+        if (ball_mode == BALL_MODE_SCROLL_V) {
+            cnt_mouse_v += y;
             int scrolling_v = 0;
 
-            if (cnt_mouse_v > SCROLL_THRESHOLD) {
+            if (cnt_mouse_v > SCROLL_THRESHOLD_V) {
                 scrolling_v = 1;
                 cnt_mouse_v = 0;
-            } else if (cnt_mouse_v < SCROLL_THRESHOLD * (-1)) {
+            } else if (cnt_mouse_v < SCROLL_THRESHOLD_V * (-1)) {
                 scrolling_v = -1;
                 cnt_mouse_v = 0;
             }
@@ -125,18 +133,19 @@ void matrix_scan_user(void) {
             mouse_rep.v = -scrolling_v;
             mouse_rep.x = 0;
             mouse_rep.y = 0;
+        }
 
-        } else {
+        if (ball_mode == BALL_MODE_MOUSE) {
             // mouse mode
             mouse_rep.h = 0;
             mouse_rep.v = 0;
-            mouse_rep.x = -y;
-            mouse_rep.y = x;
+            mouse_rep.x = -x;
+            mouse_rep.y = y;
         }
 
         if (cnt % 10 == 0) {
-            // dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
-            //  uprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+            //   dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+            uprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
 
             static char type_count_str[7];
             itoa(stat, type_count_str, 10);
@@ -175,26 +184,44 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 #endif
 
-
-
     oled_set_cursor(0, 9);
     oled_write(format_4d(keycode), false);
 
     switch (keycode) {
-        case MSCROLL:
+        case MSCROLL: // custom(64) via
+
             if (record->event.pressed) {
                 // 押された時に何かをします
-                print("MSCROLL  pressed\n");
-                mouse_mode_scroll = true;
+                print("MSCROLL  pressed 2\n");
+                //   mouse_mode_scroll = true;
+                ball_mode = BALL_MODE_SCROLL_V;
             } else {
                 // 放された時に何かをします
                 print("MSCROLL  release\n");
-                mouse_mode_scroll = false;
+                //  mouse_mode_scroll = false;
+                ball_mode = BALL_MODE_SCROLL_V;
             }
             return false; // このキーの以降の処理をスキップします
 
-        case BAR:
+        case SCROLL_L:
+            if (record->event.pressed) {
+                print("SCROLL_L  pressed\n");
+                ball_mode = BALL_MODE_L_KEY;
 
+            } else {
+                print("SCROLL_L  release\n");
+                ball_mode = BALL_MODE_MOUSE;
+            }
+            return false;
+
+        case SCROLL_R:
+            if (record->event.pressed) {
+                print("SCROLL_R  pressed\n");
+
+            } else {
+                print("SCROLL_R  release\n");
+            }
+            return false;
 
         default:
             return true; // 他の全てのキーコードを通常通りに処理します
@@ -210,11 +237,6 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_270;
     return rotation;
 }
-
-/* #define L_BASE 0
-#define L_LOWER 1
-#define L_RAISE 2
-#define L_ADJUST 3 */
 
 /* void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
@@ -295,7 +317,9 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
         case _BASE:
             dprint("layer 0\n");
-            mouse_mode_scroll = false;
+            //  mouse_mode_scroll = false;
+            ball_mode = BALL_MODE_MOUSE;
+
             oled_set_cursor(0, 2);
             oled_write_ln_P(PSTR("--0--"), false);
             oled_set_cursor(0, 3);
@@ -312,8 +336,10 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
 
         case _L1:
-            print("layer 1!!!\n");
-            mouse_mode_scroll = false;
+            print("layer 1!!\n");
+            // mouse_mode_scroll = false;
+            ball_mode = BALL_MODE_MOUSE;
+
             oled_set_cursor(0, 2);
             oled_write_ln_P(PSTR("-- --"), false);
             oled_set_cursor(0, 3);
@@ -331,7 +357,9 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
         case _L2:
             dprint("layer 2\n");
-            mouse_mode_scroll = false;
+            // mouse_mode_scroll = false;
+            ball_mode = BALL_MODE_MOUSE;
+
             oled_set_cursor(0, 2);
             oled_write_ln_P(PSTR("-- --"), false);
             oled_set_cursor(0, 3);
@@ -348,7 +376,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
         case _L3:
             dprint("layer 3\n");
-            mouse_mode_scroll = true;
+            // mouse_mode_scroll = true;
+            ball_mode = BALL_MODE_SCROLL_V;
             oled_set_cursor(0, 2);
             oled_write_ln_P(PSTR("-- --"), false);
             oled_set_cursor(0, 3);
@@ -366,6 +395,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         case _L4:
             dprint("layer 4\n");
             //  mouse_mode_scroll = false;
+            ball_mode = BALL_MODE_MOUSE;
+
             oled_set_cursor(0, 2);
             oled_write_ln_P(PSTR("-- --"), false);
             oled_set_cursor(0, 3);
@@ -382,7 +413,9 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
         case _L5:
             dprint("layer 5\n");
-            mouse_mode_scroll = false;
+            //  mouse_mode_scroll = false;
+            ball_mode = BALL_MODE_MOUSE;
+
             oled_set_cursor(0, 2);
             oled_write_ln_P(PSTR("-- --"), false);
             oled_set_cursor(0, 3);
