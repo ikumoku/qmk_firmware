@@ -90,7 +90,7 @@ void matrix_init_user(void) {
 }
 
 #define SCROLL_THRESHOLD_V 10
-#define SCROLL_THRESHOLD_H 10
+#define SCROLL_THRESHOLD_H 50
 
 int cnt_mouse_v = 0;
 int cnt_mouse_h = 0;
@@ -98,6 +98,7 @@ int cnt_mouse_h = 0;
 void matrix_scan_user(void) {
     static int  cnt;
     static bool paw_ready;
+    keypos_t    key;
 
     if (cnt++ % 50000 == 0) {
         uint8_t pid = read_pid_paw3204();
@@ -138,16 +139,28 @@ void matrix_scan_user(void) {
         if (ball_mode == BALL_MODE_L_KEY) {
             cnt_mouse_h += x;
 
-           // uprintf("BALL_MODE_L_KEY:%d\n", cnt_mouse_h);
+            // uprintf("BALL_MODE_L_KEY:%d\n", cnt_mouse_h);
 
             if (cnt_mouse_h > SCROLL_THRESHOLD_H) {
-                print("right!");
-
+                print("left!\n");
                 cnt_mouse_h = 0;
+
+                key.row = 3;
+                key.col = 5;
+                layer_move(_L1);
+                action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
+                action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
+                layer_move(_L4);
+
             } else if (cnt_mouse_h < SCROLL_THRESHOLD_H * (-1)) {
-                print("left!");
+                print("right!\n");
 
                 cnt_mouse_h = 0;
+
+                key.row = 7;
+                key.col = 5;
+                action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
+                action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
             }
         }
 
@@ -189,11 +202,12 @@ void keyboard_post_init_user(void) {
     debug_matrix = true;
     // debug_keyboard=true;
     // debug_mouse=true;
-    //   oled_write_P(PSTR("test ok:"), false);
+    // joled_write_P(PSTR("test ok:"), false);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // print("process_record_user\n");
+
     // コンソールが有効化されている場合、マトリックス上の位置とキー押下状態を出力します
 #ifdef CONSOLE_ENABLE
     //  dprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
@@ -215,22 +229,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 // 放された時に何かをします
                 print("MSCROLL  release\n");
                 //  mouse_mode_scroll = false;
-                ball_mode = BALL_MODE_SCROLL_V;
+                ball_mode = BALL_MODE_MOUSE;
             }
             return false; // このキーの以降の処理をスキップします
 
-        case SCROLL_L:
+        case SCROLL_L: // custom(65) via
             if (record->event.pressed) {
                 print("SCROLL_L  pressed\n");
                 ball_mode = BALL_MODE_L_KEY;
+                // layer_move(_L5);
 
             } else {
                 print("SCROLL_L  release\n");
                 ball_mode = BALL_MODE_MOUSE;
+               // layer_off(_L4);
             }
             return false;
 
-        case SCROLL_R:
+        case SCROLL_R: // custom(66) via
             if (record->event.pressed) {
                 print("SCROLL_R  pressed\n");
 
@@ -254,30 +270,6 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return rotation;
 }
 
-/* void oled_render_layer_state(void) {
-    oled_write_P(PSTR("Layer: "), false);
-    switch (layer_state) {
-        case _BASE:
-            oled_write_ln_P(PSTR("0000"), false);
-            break;
-        case _L1:
-            oled_write_ln_P(PSTR("11111111"), false);
-            break;
-        case _L2:
-            oled_write_ln_P(PSTR("222222222222"), false);
-            break;
-        case _L3:
-            oled_write_ln_P(PSTR(""), false);
-            break;
-    }
-}
-
-bool oled_task_user(void) {
-    oled_render_layer_state();
-    return false;
-}
- */
-
 //////////////////////////////////////////////////////////////////////////////
 // encoder
 bool encoder_update_kb(uint8_t index, bool clockwise) {
@@ -299,7 +291,7 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
         action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
         action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
         if (encoder_layer_locked) {
-            layer_off(_BASE);
+           // layer_off(_BASE);
         }
     }
 
@@ -332,7 +324,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     oled_set_cursor(2, 3);
     switch (get_highest_layer(state)) {
         case _BASE:
-            dprint("layer 0\n");
+            print("layer 0\n");
             //  mouse_mode_scroll = false;
             ball_mode = BALL_MODE_MOUSE;
 
@@ -372,7 +364,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
 
         case _L2:
-            dprint("layer 2\n");
+            print("layer 2\n");
             // mouse_mode_scroll = false;
             ball_mode = BALL_MODE_MOUSE;
 
@@ -391,7 +383,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
 
         case _L3:
-            dprint("layer 3\n");
+            print("layer 3\n");
             // mouse_mode_scroll = true;
             ball_mode = BALL_MODE_SCROLL_V;
             oled_set_cursor(0, 2);
@@ -409,7 +401,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
 
         case _L4:
-            dprint("layer 4\n");
+            print("layer 4\n");
             //  mouse_mode_scroll = false;
             ball_mode = BALL_MODE_MOUSE;
 
@@ -428,7 +420,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
 
         case _L5:
-            dprint("layer 5\n");
+            print("layer 5\n");
             //  mouse_mode_scroll = false;
             ball_mode = BALL_MODE_MOUSE;
 
@@ -452,81 +444,3 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     }
     return state;
 }
-
-/*
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    switch (index) {
-        case _1ST_ENC:
-            if (clockwise) {
-                tap_code(KC_VOLU);
-                // tap_code(KC_PGDN);
-                dprint("_1ST_ENC cw\n");
-            } else {
-                tap_code(KC_VOLD);
-                // tap_code(KC_PGUP);
-                dprint("_1ST_ENC ccw\n");
-            }
-            break;
-        case _2ND_ENC:
-            if (clockwise) {
-                tap_code(KC_VOLU);
-                dprint("_2ST_ENC cw\n");
-            } else {
-                tap_code(KC_VOLD);
-                dprint("_2ST_ENC ccw\n");
-            }
-            break;
-    }
-    return false;
-}
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    switch (index) {
-        case _1ST_ENC:
-            if (clockwise) {
-                tap_code(KC_VOLU);
-                // tap_code(KC_PGDN);
-                dprint("_1ST_ENC cw\n");
-            } else {
-                tap_code(KC_VOLD);
-                // tap_code(KC_PGUP);
-                dprint("_1ST_ENC ccw\n");
-            }
-            break;
-        case _2ND_ENC:
-            if (clockwise) {
-                tap_code(KC_VOLU);
-                dprint("_2ST_ENC cw\n");
-            } else {
-                tap_code(KC_VOLD);
-                dprint("_2ST_ENC ccw\n");
-            }
-            break;
-    }
-    return false;
-}
-c
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    switch (index) {
-        case _1ST_ENC:
-            if (clockwise) {
-                tap_code(KC_VOLU);
-                // tap_code(KC_PGDN);
-                dprint("_1ST_ENC cw\n");
-            } else {
-                tap_code(KC_VOLD);
-                // tap_code(KC_PGUP);
-                dprint("_1ST_ENC ccw\n");
-            }
-            break;
-        case _2ND_ENC:
-            if (clockwise) {
-                tap_code(KC_VOLU);
-                dprint("_2ST_ENC cw\n");
-            } else {
-                tap_code(KC_VOLD);
-                dprint("_2ST_ENC ccw\n");
-            }
-            break;
-    }
-    return false;
-} */
