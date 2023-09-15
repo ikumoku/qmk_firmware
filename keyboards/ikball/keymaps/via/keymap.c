@@ -7,7 +7,6 @@
 
 #include "quantum.h"
 #include "print.h"
-// #include <stdio.h>
 
 #include "paw3204.h"
 #include "pointing_device.h"
@@ -50,32 +49,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //////////////////////////////////////////////////////////////////////////////
 // OLED表示用
 
-static const char *format_4d(int8_t d) {
-    static char buf[5] = {0}; // max width (4) + NUL (1)
-    char        lead   = ' ';
-    if (d < 0) {
-        d    = -d;
-        lead = '-';
-    }
-    buf[3] = (d % 10) + '0';
-    d /= 10;
-    if (d == 0) {
-        buf[2] = lead;
-        lead   = ' ';
-    } else {
-        buf[2] = (d % 10) + '0';
-        d /= 10;
-    }
-    if (d == 0) {
-        buf[1] = lead;
-        lead   = ' ';
-    } else {
-        buf[1] = (d % 10) + '0';
-        d /= 10;
-    }
-    buf[0] = lead;
-    return buf;
-}
+// static const char *format_4d(int8_t d) {
+//     static char buf[5] = {0}; // max width (4) + NUL (1)
+//     char        lead   = ' ';
+//     if (d < 0) {
+//         d    = -d;
+//         lead = '-';
+//     }
+//     buf[3] = (d % 10) + '0';
+//     d /= 10;
+//     if (d == 0) {
+//         buf[2] = lead;
+//         lead   = ' ';
+//     } else {
+//         buf[2] = (d % 10) + '0';
+//         d /= 10;
+//     }
+//     if (d == 0) {
+//         buf[1] = lead;
+//         lead   = ' ';
+//     } else {
+//         buf[1] = (d % 10) + '0';
+//         d /= 10;
+//     }
+//     buf[0] = lead;
+//     return buf;
+// }
 
 //////////////////////////////////////////////////////////////////////////////
 // trackball
@@ -90,7 +89,7 @@ void matrix_init_user(void) {
 }
 
 #define SCROLL_THRESHOLD_V 10
-#define SCROLL_THRESHOLD_H 50
+#define SCROLL_THRESHOLD_H 30
 
 int cnt_mouse_v = 0;
 int cnt_mouse_h = 0;
@@ -147,14 +146,13 @@ void matrix_scan_user(void) {
 
                 key.row = 3;
                 key.col = 5;
-                layer_move(_L1);
+                // layer_move(_L1);
                 action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
                 action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
-                layer_move(_L4);
+                //  layer_move(_L4);
 
             } else if (cnt_mouse_h < SCROLL_THRESHOLD_H * (-1)) {
                 print("right!\n");
-
                 cnt_mouse_h = 0;
 
                 key.row = 7;
@@ -178,13 +176,13 @@ void matrix_scan_user(void) {
 
             static char type_count_str[7];
             itoa(stat, type_count_str, 10);
-            oled_set_cursor(0, 8);
+            // oled_set_cursor(0, 8);
             //  oled_write_P(PSTR("Ball"), false);
             // oled_write(type_count_str, false);
-            oled_set_cursor(0, 11);
-            oled_write(format_4d(mouse_rep.x), false);
-            oled_set_cursor(0, 13);
-            oled_write(format_4d(mouse_rep.y), false);
+            // oled_set_cursor(0, 11);
+            // oled_write(format_4d(mouse_rep.x), false);
+            // oled_set_cursor(0, 13);
+            // oled_write(format_4d(mouse_rep.y), false);
         }
 
         if (stat & 0x80) {
@@ -214,8 +212,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 #endif
 
-    oled_set_cursor(0, 9);
-    oled_write(format_4d(keycode), false);
+    // oled_set_cursor(0, 9);
+    // oled_write(format_4d(keycode), false);
 
     switch (keycode) {
         case MSCROLL: // custom(64) via
@@ -242,7 +240,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             } else {
                 print("SCROLL_L  release\n");
                 ball_mode = BALL_MODE_MOUSE;
-               // layer_off(_L4);
+                // layer_off(_L4);
             }
             return false;
 
@@ -291,7 +289,7 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
         action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
         action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
         if (encoder_layer_locked) {
-           // layer_off(_BASE);
+            // layer_off(_BASE);
         }
     }
 
@@ -316,12 +314,37 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
     return true;
 }
 
+static const char PROGMEM qmk_1[] = {0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0xDF, 0xDF, 0xDF, 0xDF, 0xDF, 0xDF, 0xDF, 0x00};
+static const char PROGMEM qmk_2[] = {0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0xDF, 0xDF, 0xDF, 0xDF, 0x20, 0x20, 0xDF, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0xDF, 0x20, 0x20, 0xDF, 0x20, 0x20, 0xDF, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0xDF, 0x20, 0x20, 0xDF, 0xDF, 0xDF, 0xDF, 0x00};
+
+static const char PROGMEM my_logo[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xfe, 0x7f, 0xf3, 0xff, 0xfe, 0x7f, 0xf3, 0xff, 0xff, 0xff, 0xff, 0xe0, 0x8e, 0x64, 0x73, 0xe0, 0x06, 0x60, 0x33, 0xe6, 0x66, 0x67, 0x33, 0xe6, 0x66, 0x67, 0x33, 0xe6, 0x66, 0x67, 0x33, 0xe6, 0x66, 0x67, 0x33, 0xe6, 0x66, 0x67, 0x33, 0xe6, 0x66, 0x67, 0x33, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x80, 0x3f, 0xff, 0xff, 0xbf, 0xbf, 0xff, 0xff, 0xbf, 0xbf, 0xff, 0xff, 0x83, 0x3f, 0xff, 0xff, 0xf7, 0x7f, 0xff, 0xff, 0xf6, 0xff, 0xff, 0xff, 0xee, 0xf1, 0xc8, 0xf3, 0xed, 0xe0, 0xc0, 0x61, 0xdd, 0xce, 0x4e, 0x4c, 0xdb, 0xce, 0x4e, 0x40, 0xbb, 0xce, 0x4e, 0x40, 0x30, 0x4e, 0x4e, 0x4f, 0x7f, 0xa0, 0xce, 0x61, 0x7f, 0xb1, 0xce, 0x70, 0x00, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+
+static const char PROGMEM q_logo[] = {0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F, 0x90, 0x91, 0x92, 0x93, 0x94, 0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAA, 0xAB, 0xAC, 0xAD, 0xAE, 0xAF, 0xB0, 0xB1, 0xB2, 0xB3, 0xB4, 0xC0, 0xC1, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0xCE, 0xCF, 0xD0, 0xD1, 0xD2, 0xD3, 0xD4, 0x00};
+
 //////////////////////////////////////////////////////////////////////////////
 // change layer
 layer_state_t layer_state_set_user(layer_state_t state) {
     oled_set_cursor(0, 0);
-    //  oled_write_P(PSTR("Layer"), false);
-    oled_set_cursor(2, 3);
+    // oled_write_P(PSTR("Layer"), false);
+    /*
+   switch (get_highest_layer(state)) {
+       case _BASE:
+           print("layer base 0\n");
+         //  oled_write_raw_P(my_logo, sizeof(my_logo));
+            oled_write_P(q_logo, sizeof(q_logo));
+           break;
+
+       case _L1:
+           print("layer _L1\n");
+        //   oled_write_P(qmk_2, false);
+           break;
+
+       default:
+
+           break;
+       }
+       */
+
     switch (get_highest_layer(state)) {
         case _BASE:
             print("layer 0\n");
@@ -344,7 +367,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
 
         case _L1:
-            print("layer 1\n");
+            print("layer 1!!\n");
             // mouse_mode_scroll = false;
             ball_mode = BALL_MODE_MOUSE;
 
@@ -401,7 +424,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
 
         case _L4:
-            print("layer 4\n");
+            print("layer 44\n");
             //  mouse_mode_scroll = false;
             ball_mode = BALL_MODE_MOUSE;
 
@@ -420,9 +443,10 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
 
         case _L5:
-            print("layer 5\n");
-            //  mouse_mode_scroll = false;
-            ball_mode = BALL_MODE_MOUSE;
+            print("layer 5!!!\n");
+
+            // ball_mode = BALL_MODE_MOUSE;
+            ball_mode = BALL_MODE_L_KEY;
 
             oled_set_cursor(0, 2);
             oled_write_ln_P(PSTR("-- --"), false);
@@ -442,5 +466,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
             break;
     }
+
     return state;
 }

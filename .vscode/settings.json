@@ -29,5 +29,5 @@
     "[json]": {
 	    "editor.formatOnSave": false
     },
-    "cmake.sourceDirectory": "C:/Users/ik/Documents/GitHub/qmk_firmware/lib/lvgl/tests"
+    "cmake.sourceDirectory": "C:/Users/Nichinan_Soft/Documents/GitHub/qmk_firmware/lib/googletest"
 }
