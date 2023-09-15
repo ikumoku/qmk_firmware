@@ -49,32 +49,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //////////////////////////////////////////////////////////////////////////////
 // OLED表示用
 
-// static const char *format_4d(int8_t d) {
-//     static char buf[5] = {0}; // max width (4) + NUL (1)
-//     char        lead   = ' ';
-//     if (d < 0) {
-//         d    = -d;
-//         lead = '-';
-//     }
-//     buf[3] = (d % 10) + '0';
-//     d /= 10;
-//     if (d == 0) {
-//         buf[2] = lead;
-//         lead   = ' ';
-//     } else {
-//         buf[2] = (d % 10) + '0';
-//         d /= 10;
-//     }
-//     if (d == 0) {
-//         buf[1] = lead;
-//         lead   = ' ';
-//     } else {
-//         buf[1] = (d % 10) + '0';
-//         d /= 10;
-//     }
-//     buf[0] = lead;
-//     return buf;
-// }
+static const char *format_4d(int8_t d) {
+    static char buf[5] = {0}; // max width (4) + NUL (1)
+    char        lead   = ' ';
+    if (d < 0) {
+        d    = -d;
+        lead = '-';
+    }
+    buf[3] = (d % 10) + '0';
+    d /= 10;
+    if (d == 0) {
+        buf[2] = lead;
+        lead   = ' ';
+    } else {
+        buf[2] = (d % 10) + '0';
+        d /= 10;
+    }
+    if (d == 0) {
+        buf[1] = lead;
+        lead   = ' ';
+    } else {
+        buf[1] = (d % 10) + '0';
+        d /= 10;
+    }
+    buf[0] = lead;
+    return buf;
+}
 
 //////////////////////////////////////////////////////////////////////////////
 // trackball
@@ -177,12 +177,12 @@ void matrix_scan_user(void) {
             static char type_count_str[7];
             itoa(stat, type_count_str, 10);
             // oled_set_cursor(0, 8);
-            //  oled_write_P(PSTR("Ball"), false);
+            // oled_write_P(PSTR("Ball"), false);
             // oled_write(type_count_str, false);
-            // oled_set_cursor(0, 11);
-            // oled_write(format_4d(mouse_rep.x), false);
-            // oled_set_cursor(0, 13);
-            // oled_write(format_4d(mouse_rep.y), false);
+            oled_set_cursor(0, 11);
+            oled_write(format_4d(mouse_rep.x), false);
+            oled_set_cursor(0, 13);
+            oled_write(format_4d(mouse_rep.y), false);
         }
 
         if (stat & 0x80) {
