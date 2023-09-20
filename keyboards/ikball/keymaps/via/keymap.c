@@ -445,8 +445,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         case _L5:
             print("layer 5!!!\n");
 
-            // ball_mode = BALL_MODE_MOUSE;
-            ball_mode = BALL_MODE_L_KEY;
+            ball_mode = BALL_MODE_MOUSE;
+           // ball_mode = BALL_MODE_L_KEY;
 
             oled_set_cursor(0, 2);
             oled_write_ln_P(PSTR("-- --"), false);

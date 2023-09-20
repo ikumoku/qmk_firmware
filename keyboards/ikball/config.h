@@ -35,16 +35,21 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // pin Assignments
-//   TX/D3      RGB_DI
-//   RX/D2      SERIAL
-//   X1 SDA D1  OLED_SDA           F4 X9   ROW0
-//   X2 SCL D0  OLED_SCL           F5 X10  ROW1
+//      D3 TX   RGB_DI
+//      D2 RX   SERIAL
+//   GND
+//   GND
+//   X1 D1 SDA  OLED_SDA           F4 X9   ROW0
+//   X2 D0 SCL  OLED_SCL           F5 X10  ROW1
 //   X3 D4      COL0               F6 Y1   ROW2
 //   X4 C6      COL1               F7 Y2   ROW3
 //   X5 D7      COL2               B1 Y3   ENCODERS_PAD_A
 //   X6 E6      COL3               B3 Y4   ENCODERS_PAD_B
 //   X7 B4      COL4               B2 Y5   PAW3204_SCLK　
 //   X8 B5      COL5               B6 Y6 　PAW3204_DATA
+
+//      D5  TX_LED
+//      B0  RX_LED
 //////////////////////////////////////////////////////////////////////////////////
 
 
