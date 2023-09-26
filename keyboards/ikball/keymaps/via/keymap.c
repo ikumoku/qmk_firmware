@@ -25,26 +25,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_BASE] = LAYOUT(KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,
 
-                     KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I),
+                     KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I ,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A),
 
     [_L1] = LAYOUT(KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,
 
-                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I),
+                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A),
     [_L2] = LAYOUT(KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,
 
-                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I),
+                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A),
 
     [_L3] = LAYOUT(KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,
 
-                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I),
+                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A),
 
     [_L4] = LAYOUT(KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,
 
-                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I),
+                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A),
 
     [_L5] = LAYOUT(KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,
 
-                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I)};
+                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A)};
 
 //////////////////////////////////////////////////////////////////////////////
 // OLED表示用
@@ -144,7 +144,7 @@ void matrix_scan_user(void) {
                 print("left!\n");
                 cnt_mouse_h = 0;
 
-                key.row = 3;
+                key.row = 7;
                 key.col = 5;
                 // layer_move(_L1);
                 action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
@@ -155,7 +155,7 @@ void matrix_scan_user(void) {
                 print("right!\n");
                 cnt_mouse_h = 0;
 
-                key.row = 7;
+                key.row = 8;
                 key.col = 5;
                 action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
                 action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
@@ -298,7 +298,7 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
             key.row = 6;
             key.col = 5;
         } else {
-            key.row = 5;
+            key.row = 3;
             key.col = 5;
         }
         if (get_highest_layer(layer_state) < _L3) {
