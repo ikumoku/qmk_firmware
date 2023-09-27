@@ -144,8 +144,8 @@ void matrix_scan_user(void) {
                 print("left!\n");
                 cnt_mouse_h = 0;
 
-                key.row = 7;
-                key.col = 5;
+                key.row = 4;
+                key.col = 0;
                 // layer_move(_L1);
                 action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
                 action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
@@ -155,8 +155,8 @@ void matrix_scan_user(void) {
                 print("right!\n");
                 cnt_mouse_h = 0;
 
-                key.row = 8;
-                key.col = 5;
+                key.row = 4;
+                key.col = 2;
                 action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
                 action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
             }
@@ -247,9 +247,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case SCROLL_R: // custom(66) via
             if (record->event.pressed) {
                 print("SCROLL_R  pressed\n");
+                ball_mode = BALL_MODE_R_KEY;
 
             } else {
                 print("SCROLL_R  release\n");
+                ball_mode = BALL_MODE_MOUSE;
             }
             return false;
 
@@ -408,7 +410,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         case _L3:
             print("layer 3\n");
             // mouse_mode_scroll = true;
-            ball_mode = BALL_MODE_SCROLL_V;
+            // ball_mode = BALL_MODE_SCROLL_V;
+            ball_mode = BALL_MODE_MOUSE;
             oled_set_cursor(0, 2);
             oled_write_ln_P(PSTR("-- --"), false);
             oled_set_cursor(0, 3);
