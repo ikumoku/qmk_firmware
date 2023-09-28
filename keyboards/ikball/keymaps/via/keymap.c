@@ -156,7 +156,29 @@ void matrix_scan_user(void) {
                 cnt_mouse_h = 0;
 
                 key.row = 4;
+                key.col = 1;
+                action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
+                action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
+            }
+        }
+
+        if (ball_mode == BALL_MODE_R_KEY) {
+            cnt_mouse_h += x;
+            if (cnt_mouse_h > SCROLL_THRESHOLD_H) {
+                print("r   left!\n");
+                cnt_mouse_h = 0;
+
+                key.row = 4;
                 key.col = 2;
+                action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
+                action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
+
+            } else if (cnt_mouse_h < SCROLL_THRESHOLD_H * (-1)) {
+                print("r  right!\n");
+                cnt_mouse_h = 0;
+
+                key.row = 4;
+                key.col = 3;
                 action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
                 action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
             }
