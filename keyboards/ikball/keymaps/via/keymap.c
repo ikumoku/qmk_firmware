@@ -7,7 +7,6 @@
 
 #include "quantum.h"
 #include "print.h"
-
 #include "paw3204.h"
 #include "pointing_device.h"
 
@@ -25,26 +24,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_BASE] = LAYOUT(KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,
 
-                     KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I ,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A),
+                     KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_A, KC_A, KC_A, KC_A, KC_A, KC_A, KC_A),
 
     [_L1] = LAYOUT(KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,
 
-                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A),
+                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I, KC_A, KC_A, KC_A, KC_A, KC_A, KC_A),
     [_L2] = LAYOUT(KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,
 
-                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A),
+                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I, KC_A, KC_A, KC_A, KC_A, KC_A, KC_A),
 
     [_L3] = LAYOUT(KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,
 
-                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A),
+                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I, KC_A, KC_A, KC_A, KC_A, KC_A, KC_A),
 
     [_L4] = LAYOUT(KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,
 
-                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A),
+                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I, KC_A, KC_A, KC_A, KC_A, KC_A, KC_A),
 
     [_L5] = LAYOUT(KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,
 
-                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I,KC_A,KC_A,KC_A,KC_A,KC_A,KC_A)};
+                   KC_Y, KC_U, KC_X, KC_I, KC_I, KC_I, KC_A, KC_X, KC_S, KC_O, KC_I, KC_I, KC_B, KC_Z, KC_X, KC_P, KC_I, KC_I, KC_C, KC_Q, KC_W, KC_E, KC_I, KC_I, KC_A, KC_A, KC_A, KC_A, KC_A, KC_A)};
 
 //////////////////////////////////////////////////////////////////////////////
 // OLED表示用
@@ -228,16 +227,33 @@ void keyboard_post_init_user(void) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // print("process_record_user\n");
 
-    // コンソールが有効化されている場合、マトリックス上の位置とキー押下状態を出力します
 #ifdef CONSOLE_ENABLE
+    // コンソールが有効化されている場合、マトリックス上の位置とキー押下状態を出力します
     //  dprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
 
 #endif
+
+    uprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
 
     // oled_set_cursor(0, 9);
     // oled_write(format_4d(keycode), false);
 
     switch (keycode) {
+        // case KC_K:
+        //     print("hit KC_K \n");
+        //     if (record->event.pressed) {
+        //         print("MSCROLL  pressed 2\n");
+        //         ball_mode = BALL_MODE_SCROLL_V;
+        //     } else {
+        //         print("MSCROLL  release\n");
+        //         ball_mode = BALL_MODE_MOUSE;
+        //     }
+        //     return true;
+
+        case 17166:
+            print("hit  17166 \n");
+            return true;
+
         case MSCROLL: // custom(64) via
 
             if (record->event.pressed) {
@@ -471,7 +487,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             print("layer 5!!!\n");
 
             ball_mode = BALL_MODE_MOUSE;
-           // ball_mode = BALL_MODE_L_KEY;
+            // ball_mode = BALL_MODE_L_KEY;
 
             oled_set_cursor(0, 2);
             oled_write_ln_P(PSTR("-- --"), false);
