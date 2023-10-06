@@ -7,7 +7,7 @@
 
 #include "quantum.h"
 #include "print.h"
-#include "paw3204.h"
+// #include "paw3204.h"
 #include "pointing_device.h"
 
 enum layer_names { _BASE, _L1, _L2, _L3, _L4, _L5 };
@@ -16,7 +16,7 @@ enum encoder_number {
     _2ND_ENC,
 };
 
-enum my_keycodes { MSCROLL = SAFE_RANGE, SCROLL_L, SCROLL_R };
+enum my_keycodes { MSCROLL = SAFE_RANGE, SCROLL_L, SCROLL_R, CPI_400, CPI_1600 };
 
 enum mouse_mode { BALL_MODE_MOUSE, BALL_MODE_SCROLL_V, BALL_MODE_L_KEY, BALL_MODE_R_KEY };
 
@@ -48,35 +48,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //////////////////////////////////////////////////////////////////////////////
 // OLED表示用
 
-static const char *format_4d(int8_t d) {
-    static char buf[5] = {0}; // max width (4) + NUL (1)
-    char        lead   = ' ';
-    if (d < 0) {
-        d    = -d;
-        lead = '-';
-    }
-    buf[3] = (d % 10) + '0';
-    d /= 10;
-    if (d == 0) {
-        buf[2] = lead;
-        lead   = ' ';
-    } else {
-        buf[2] = (d % 10) + '0';
-        d /= 10;
-    }
-    if (d == 0) {
-        buf[1] = lead;
-        lead   = ' ';
-    } else {
-        buf[1] = (d % 10) + '0';
-        d /= 10;
-    }
-    buf[0] = lead;
-    return buf;
-}
+// static const char *format_4d(int8_t d) {
+//     static char buf[5] = {0}; // max width (4) + NUL (1)
+//     char        lead   = ' ';
+//     if (d < 0) {
+//         d    = -d;
+//         lead = '-';
+//     }
+//     buf[3] = (d % 10) + '0';
+//     d /= 10;
+//     if (d == 0) {
+//         buf[2] = lead;
+//         lead   = ' ';
+//     } else {
+//         buf[2] = (d % 10) + '0';
+//         d /= 10;
+//     }
+//     if (d == 0) {
+//         buf[1] = lead;
+//         lead   = ' ';
+//     } else {
+//         buf[1] = (d % 10) + '0';
+//         d /= 10;
+//     }
+//     buf[0] = lead;
+//     return buf;
+// }
 
 //////////////////////////////////////////////////////////////////////////////
 // trackball
+#define SCROLL_THRESHOLD_V 10
+#define SCROLL_THRESHOLD_H 30
+
+int cnt_mouse_v = 0;
+int cnt_mouse_h = 0;
 
 report_mouse_t mouse_rep;
 // bool    mouse_mode_scroll = false; // 上下スクロールモード
@@ -84,132 +89,176 @@ report_mouse_t mouse_rep;
 unsigned char ball_mode = BALL_MODE_MOUSE;
 
 void matrix_init_user(void) {
-    init_paw3204();
+    // init_paw3204();
+    paw3204_init();
 }
 
-#define SCROLL_THRESHOLD_V 10
-#define SCROLL_THRESHOLD_H 30
+void pointing_device_init_user(void) {
+    set_auto_mouse_layer(_L1);   // only required if AUTO_MOUSE_DEFAULT_LAYER is not set to index of <mouse_layer>
+    set_auto_mouse_enable(true); // always required before the auto mouse feature will work
+}
 
-int cnt_mouse_v = 0;
-int cnt_mouse_h = 0;
+report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
+    // print("point \n");
+
+    if (ball_mode == BALL_MODE_SCROLL_V) {
+        cnt_mouse_v += mouse_report.x;
+        int scrolling_v = 0;
+
+        if (cnt_mouse_v > SCROLL_THRESHOLD_V) {
+            scrolling_v = 1;
+            cnt_mouse_v = 0;
+        } else if (cnt_mouse_v < SCROLL_THRESHOLD_V * (-1)) {
+            scrolling_v = -1;
+            cnt_mouse_v = 0;
+        }
+
+        mouse_report.h = 0;
+        mouse_report.v = -scrolling_v;
+        mouse_report.x = 0;
+        mouse_report.y = 0;
+    } else {
+        int8_t x = mouse_report.y;
+        int8_t y = mouse_report.x;
+
+        mouse_report.h = 0;
+        mouse_report.v = 0;
+        mouse_report.x = -x;
+        mouse_report.y = y;
+    }
+    return mouse_report;
+}
+
+bool is_mouse_record_kb(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case MSCROLL:
+            return true;
+
+        default:
+            return false;
+    }
+    return is_mouse_record_user(keycode, record);
+}
 
 void matrix_scan_user(void) {
-    static int  cnt;
-    static bool paw_ready;
-    keypos_t    key;
-
-    if (cnt++ % 50000 == 0) {
-        uint8_t pid = read_pid_paw3204();
-        if (pid == 0x30) {
-            //   dprint("paw3204 OK\n");
-            paw_ready = true;
-        } else {
-            dprintf("paw3204 NG:%d\n", pid);
-            paw_ready = false;
-        }
-    }
-
-    if (paw_ready) {
-        uint8_t stat;
-        int8_t  x, y;
-
-        read_paw3204(&stat, &y, &x);
-        mouse_rep.buttons = 0;
-
-        if (ball_mode == BALL_MODE_SCROLL_V) {
-            cnt_mouse_v += y;
-            int scrolling_v = 0;
-
-            if (cnt_mouse_v > SCROLL_THRESHOLD_V) {
-                scrolling_v = 1;
-                cnt_mouse_v = 0;
-            } else if (cnt_mouse_v < SCROLL_THRESHOLD_V * (-1)) {
-                scrolling_v = -1;
-                cnt_mouse_v = 0;
-            }
-
-            mouse_rep.h = 0;
-            mouse_rep.v = -scrolling_v;
-            mouse_rep.x = 0;
-            mouse_rep.y = 0;
-        }
-
-        if (ball_mode == BALL_MODE_L_KEY) {
-            cnt_mouse_h += x;
-
-            // uprintf("BALL_MODE_L_KEY:%d\n", cnt_mouse_h);
-
-            if (cnt_mouse_h > SCROLL_THRESHOLD_H) {
-                print("left!\n");
-                cnt_mouse_h = 0;
-
-                key.row = 4;
-                key.col = 0;
-                // layer_move(_L1);
-                action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
-                action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
-                //  layer_move(_L4);
-
-            } else if (cnt_mouse_h < SCROLL_THRESHOLD_H * (-1)) {
-                print("right!\n");
-                cnt_mouse_h = 0;
-
-                key.row = 4;
-                key.col = 1;
-                action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
-                action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
+    //   static int  cnt;
+    //   static bool paw_ready;
+    //  keypos_t    key;
+    /*
+        if (cnt++ % 50000 == 0) {
+            uint8_t pid = read_pid_paw3204();
+            if (pid == 0x30) {
+                //   dprint("paw3204 OK\n");
+                paw_ready = true;
+            } else {
+                dprintf("paw3204 NG:%d\n", pid);
+                paw_ready = false;
             }
         }
 
-        if (ball_mode == BALL_MODE_R_KEY) {
-            cnt_mouse_h += x;
-            if (cnt_mouse_h > SCROLL_THRESHOLD_H) {
-                print("r   left!\n");
-                cnt_mouse_h = 0;
+        if (paw_ready) {
+            uint8_t stat;
+            int8_t  x, y;
 
-                key.row = 4;
-                key.col = 2;
-                action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
-                action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
+            read_paw3204(&stat, &y, &x);
+            mouse_rep.buttons = 0;
 
-            } else if (cnt_mouse_h < SCROLL_THRESHOLD_H * (-1)) {
-                print("r  right!\n");
-                cnt_mouse_h = 0;
+            if (ball_mode == BALL_MODE_SCROLL_V) {
+                cnt_mouse_v += y;
+                int scrolling_v = 0;
 
-                key.row = 4;
-                key.col = 3;
-                action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
-                action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
+                if (cnt_mouse_v > SCROLL_THRESHOLD_V) {
+                    scrolling_v = 1;
+                    cnt_mouse_v = 0;
+                } else if (cnt_mouse_v < SCROLL_THRESHOLD_V * (-1)) {
+                    scrolling_v = -1;
+                    cnt_mouse_v = 0;
+                }
+
+                mouse_rep.h = 0;
+                mouse_rep.v = -scrolling_v;
+                mouse_rep.x = 0;
+                mouse_rep.y = 0;
+            }
+
+            if (ball_mode == BALL_MODE_L_KEY) {
+                cnt_mouse_h += x;
+
+                // uprintf("BALL_MODE_L_KEY:%d\n", cnt_mouse_h);
+
+                if (cnt_mouse_h > SCROLL_THRESHOLD_H) {
+                    print("left!\n");
+                    cnt_mouse_h = 0;
+
+                    key.row = 4;
+                    key.col = 0;
+                    // layer_move(_L1);
+                    action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
+                    action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
+                    //  layer_move(_L4);
+
+                } else if (cnt_mouse_h < SCROLL_THRESHOLD_H * (-1)) {
+                    print("right!\n");
+                    cnt_mouse_h = 0;
+
+                    key.row = 4;
+                    key.col = 1;
+                    action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
+                    action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
+                }
+            }
+
+            if (ball_mode == BALL_MODE_R_KEY) {
+                cnt_mouse_h += x;
+                if (cnt_mouse_h > SCROLL_THRESHOLD_H) {
+                    print("r   left!\n");
+                    cnt_mouse_h = 0;
+
+                    key.row = 4;
+                    key.col = 2;
+                    action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
+                    action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
+
+                } else if (cnt_mouse_h < SCROLL_THRESHOLD_H * (-1)) {
+                    print("r  right!\n");
+                    cnt_mouse_h = 0;
+
+                    key.row = 4;
+                    key.col = 3;
+                    action_exec((keyevent_t){.key = key, .pressed = true, .time = (timer_read() | 1)});
+                    action_exec((keyevent_t){.key = key, .pressed = false, .time = (timer_read() | 1)});
+                }
+            }
+
+            if (ball_mode == BALL_MODE_MOUSE) {
+                // mouse mode
+                mouse_rep.h = 0;
+                mouse_rep.v = 0;
+                mouse_rep.x = -x;
+                mouse_rep.y = y;
+            }
+
+            if (cnt % 10 == 0) {
+                // dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+                // uprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
+
+                static char type_count_str[7];
+                itoa(stat, type_count_str, 10);
+                // oled_set_cursor(0, 8);
+                // oled_write_P(PSTR("Ball"), false);
+                // oled_write(type_count_str, false);
+                oled_set_cursor(0, 11);
+                oled_write(format_4d(mouse_rep.x), false);
+                oled_set_cursor(0, 13);
+                oled_write(format_4d(mouse_rep.y), false);
+            }
+
+            if (stat & 0x80) {
+                pointing_device_set_report(mouse_rep);
             }
         }
 
-        if (ball_mode == BALL_MODE_MOUSE) {
-            // mouse mode
-            mouse_rep.h = 0;
-            mouse_rep.v = 0;
-            mouse_rep.x = -x;
-            mouse_rep.y = y;
-        }
-
-        if (cnt % 10 == 0) {
-            // dprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
-            // uprintf("stat:%3d x:%4d y:%4d\n", stat, mouse_rep.x, mouse_rep.y);
-
-            static char type_count_str[7];
-            itoa(stat, type_count_str, 10);
-            // oled_set_cursor(0, 8);
-            // oled_write_P(PSTR("Ball"), false);
-            // oled_write(type_count_str, false);
-            oled_set_cursor(0, 11);
-            oled_write(format_4d(mouse_rep.x), false);
-            oled_set_cursor(0, 13);
-            oled_write(format_4d(mouse_rep.y), false);
-        }
-
-        if (stat & 0x80) {
-            pointing_device_set_report(mouse_rep);
-        }
-    }
+    */
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -285,6 +334,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 print("SCROLL_R  release\n");
                 ball_mode = BALL_MODE_MOUSE;
             }
+            return false;
+
+        case CPI_400:                     // custom(67) via
+            pointing_device_set_cpi(400); // 400 500 600 800 1000 1200 1600
+            oled_set_cursor(0, 9);
+            oled_write_ln_P(PSTR(" 400"), false);
+            return false;
+
+        case CPI_1600:                     // custom(68) via
+            pointing_device_set_cpi(1600); // 400 500 600 800 1000 1200 1600
+            oled_set_cursor(0, 9);
+            oled_write_ln_P(PSTR("1600"), false);
             return false;
 
         default:

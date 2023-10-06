@@ -13,8 +13,8 @@ BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionalit
 
 # Optical sensor driver for trackball.
 POINTING_DEVICE_ENABLE = yes
-POINTING_DEVICE_DRIVER = custom
-SRC += 	paw3204.c
+POINTING_DEVICE_DRIVER = paw3204
+#SRC += 	paw3204.c
 
 OLED_ENABLE = yes
 OLED_DRIVER = SSD1306
