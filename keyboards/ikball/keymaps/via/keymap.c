@@ -239,16 +239,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // oled_write(format_4d(keycode), false);
 
     switch (keycode) {
-        // case KC_K:
-        //     print("hit KC_K \n");
-        //     if (record->event.pressed) {
-        //         print("MSCROLL  pressed 2\n");
-        //         ball_mode = BALL_MODE_SCROLL_V;
-        //     } else {
-        //         print("MSCROLL  release\n");
-        //         ball_mode = BALL_MODE_MOUSE;
-        //     }
-        //     return true;
+        case KC_K:
+            print("hit KC_K \n");
+
+            return true;
 
         case 17166:
             print("hit  17166 \n");
