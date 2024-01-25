@@ -34,8 +34,8 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // pin Assignments
-//      D3 TX   RGB_DI ←　　ROW4
-//      D2 RX   SERIAL
+//   D3 TX   RGB_DI ←　　ROW4
+//   D2 RX   SERIAL
 //   GND
 //   GND
 //   X1 D1 SDA  OLED_SDA           F4 X9   ROW0
