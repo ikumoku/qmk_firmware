@@ -88,7 +88,7 @@ void matrix_init_user(void) {
 }
 
 #define SCROLL_THRESHOLD_V 10
-#define SCROLL_THRESHOLD_H 30
+#define SCROLL_THRESHOLD_H 100
 
 int cnt_mouse_v = 0;
 int cnt_mouse_h = 0;
@@ -401,7 +401,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
 
         case _L1:
-            print("layer 1!!\n");
+            print("layer 1!! good\n");
             // mouse_mode_scroll = false;
             ball_mode = BALL_MODE_MOUSE;
 
