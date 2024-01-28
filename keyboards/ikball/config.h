@@ -85,8 +85,10 @@
 // Rotary encoder
 #define ENCODERS_PAD_A { B1 }
 #define ENCODERS_PAD_B { B3 }
-//#define ENCODER_RESOLUTION 2
-#define ENCODER_RESOLUTION 4
+#define ENCODER_RESOLUTION 1
+//「2」に設定すると1回転で48回、「3」に設定すると1回転で32回、「4」に設定すると1回転で24回
+//#define ENCODER_RESOLUTION 4  // ikball_v3
+
 
 // RGB LED settings
 // #define RGB_DI_PIN       D3

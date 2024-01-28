@@ -401,7 +401,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
 
         case _L1:
-            print("layer 1!! good\n");
+            print("layer 1!! new\n");
             // mouse_mode_scroll = false;
             ball_mode = BALL_MODE_MOUSE;
 
