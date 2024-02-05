@@ -45,8 +45,10 @@
 //   X4 C6      COL1               F7 Y2   ROW3
 //   X5 D7      COL2               B1 Y3   ENCODERS_PAD_A
 //   X6 E6      COL3               B3 Y4   ENCODERS_PAD_B
-//   X7 B4      COL4               B2 Y5   PAW3204_SCLK　
-//   X8 B5      COL5               B6 Y6 　PAW3204_DATA
+//   X7 B4      COL4               B2 Y5   PAW3204_SCLK　      CN-3
+//   X8 B5      COL5               B6 Y6 　PAW3204_DATA        CN-2
+//                                                             CN-1 VCC
+//                                                             CN-4 GND
 
 //      D5  TX_LED
 //      B0  RX_LED
